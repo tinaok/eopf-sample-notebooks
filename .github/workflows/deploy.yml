@@ -30,7 +30,7 @@ jobs:
     # Build the book
     - name: Build the jupyter book
       run: |
-        micromamba run -n eopf-zarr jupyter-book build lectures
+        micromamba run -n eopf-zarr jupyter-book build notebooks
 
     # Upload the book's HTML as an artifact
     - name: Upload artifact
