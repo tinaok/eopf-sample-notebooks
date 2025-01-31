@@ -6,4 +6,4 @@ Additional user services are provided through the EOPF User Platform, which host
 
 The development of Jupyter Notebooks and OSS libraries and plug-ins is crucial for user adoption. Experts from various consortium members will develop these tools to demonstrate the advantages of the new EOPF Zarr data format. The project also involves creating OSS libraries and plug-ins for major programming languages to integrate the new data format with traditional and cloud-native software.
 
-The notebooks will be deployed with GitHub pages, executing them automatically and providing a rendered version
+The notebooks will be deployed with GitHub pages, executing them automatically and providing a rendered version .
