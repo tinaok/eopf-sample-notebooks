@@ -47,7 +47,7 @@ jobs:
           condarc: |
             channels:
               - conda-forge
-      - name: Build HTML Assets
+      - name: Execute Jupyter Notebooks and Build HTML Assets
         run: myst build --html --execute
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
