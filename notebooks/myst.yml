@@ -22,6 +22,7 @@ project:
     - title: Jupyter Notebooks
       children:
         - file: template/template.ipynb
+        - file: xarray_compatibility/xarray_compatibility.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_GRD_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
   # bibliography: []
