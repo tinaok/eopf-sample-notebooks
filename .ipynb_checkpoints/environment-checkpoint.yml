@@ -1,0 +1,20 @@
+name: eopf-zarr
+channels:
+- conda-forge
+dependencies:
+- python==3.11.7
+- xarray
+- folium
+- graphviz
+- mapclassify
+- matplotlib==3.10.0
+- matplotlib-inline==0.1.7
+- numpy==1.26.4
+- mystmd
+- cartopy
+- pip
+- pip:
+ - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
+ - jupyter_server
+ - bottleneck==1.4.2
+ - fsspec
