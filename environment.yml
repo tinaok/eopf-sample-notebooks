@@ -2,6 +2,7 @@ name: eopf-zarr
 channels:
 - conda-forge
 dependencies:
+<<<<<<< HEAD
 - python==3.11.7
 - xarray
 - folium
@@ -18,3 +19,14 @@ dependencies:
  - jupyter_server
  - bottleneck==1.4.2
  - fsspec
+=======
+   - python=3.11.7
+   - xarray
+   - matplotlib
+   - mystmd
+   - cartopy
+   - pip
+   - pip:
+     - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
+     - jupyter_server
+>>>>>>> origin/main
