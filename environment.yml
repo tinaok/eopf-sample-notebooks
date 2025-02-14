@@ -1,13 +1,13 @@
 name: eopf-zarr
 channels:
-- conda-forge
+  - conda-forge
 dependencies:
-   - python=3.11.7
-   - xarray
-   - matplotlib
-   - mystmd
-   - cartopy
-   - pip
-   - pip:
-     - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
-     - jupyter_server
+  - python=3.11.7
+  - xarray
+  - matplotlib
+  - mystmd
+  - cartopy
+  - pip
+  - pip:
+      - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
+      - jupyter_server
