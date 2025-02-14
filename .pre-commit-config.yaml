@@ -40,7 +40,7 @@ repos:
       - id: requirements-txt-fixer
       - id: check-case-conflict
       - id: check-executables-have-shebangs
-  
+
   # Black Checking
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 24.8.0
