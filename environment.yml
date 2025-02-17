@@ -7,11 +7,11 @@ dependencies:
   - folium
   - graphviz
   - mapclassify
-  - matplotlib==3.10.0
-  - matplotlib-inline==0.1.7
-  - bottleneck==1.4.2
+  - matplotlib=3.10.0
+  - matplotlib-inline=0.1.7
+  - bottleneck=1.4.2
   - fsspec
-  - numpy==1.26.4
+  - numpy=1.26.4
   - mystmd
   - cartopy
   - jupyter_server
