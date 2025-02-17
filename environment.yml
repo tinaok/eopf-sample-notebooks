@@ -16,6 +16,7 @@ dependencies:
   - cartopy
   - jupyter_server
   - pre-commit
+  - black-jupyter
   - pip
   - pip:
       - eopf
