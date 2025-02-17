@@ -4,10 +4,18 @@ channels:
 dependencies:
   - python=3.11.7
   - xarray
-  - matplotlib
+  - folium
+  - graphviz
+  - mapclassify
+  - matplotlib=3.10.0
+  - matplotlib-inline=0.1.7
+  - bottleneck=1.4.2
+  - fsspec
+  - numpy=1.26.4
   - mystmd
   - cartopy
+  - jupyter_server
+  - pre-commit
   - pip
   - pip:
-      - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
-      - jupyter_server
+      - eopf
