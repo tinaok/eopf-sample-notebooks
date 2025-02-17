@@ -15,6 +15,7 @@ dependencies:
   - mystmd
   - cartopy
   - jupyter_server
+  - pre-commit
   - pip
   - pip:
       - eopf
