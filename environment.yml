@@ -19,3 +19,4 @@ dependencies:
   - pip:
     - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
     - jupyter_server
+    - ipykernel
