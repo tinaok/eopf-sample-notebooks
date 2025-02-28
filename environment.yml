@@ -14,6 +14,7 @@ dependencies:
   - numpy==1.26.4
   - mystmd
   - cartopy
+  - gdal
   - pip
   - pip:
     - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
