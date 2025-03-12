@@ -1,9 +1,9 @@
 # Contributing Guidelines
 
 Thank you for your interest in contributing! This repository contains Jupyter
-notebooks that demonstrate usage examples for the latest generation of ESA 
+notebooks that demonstrate usage examples for the latest generation of ESA
 EOPF data product formats and the various libraries to utilize them.
-To ensure consistency and readability, please adhere to the following 
+To ensure consistency and readability, please adhere to the following
 guidelines.
 
 ## Code Style and Formatting
@@ -19,12 +19,12 @@ guidelines.
 - **Functions:** Use `snake_case` (e.g., `open_dataset()`).
 - **Classes:** Use `CamelCase` (e.g., `Sentine3DataProduct`).
 
-See [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/) 
+See [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
 for details.
 
 ## Formatting Jupyter Notebooks
 
-To format Jupyter notebooks using Black, install the necessary package and 
+To format Jupyter notebooks using Black, install the necessary package and
 run the following command:
 
 ```sh
@@ -40,4 +40,3 @@ black --preview --quiet notebooks/
 4. Open a pull request with a clear description of your changes.
 
 We appreciate your contributions — happy coding! 🚀
-

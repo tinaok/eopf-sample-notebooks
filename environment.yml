@@ -14,7 +14,7 @@ dependencies:
   - numpy=1.26.4
   - mystmd
   - cartopy
-  - gdal 
+  - gdal  
   - jupyter_server
   - pre-commit  
   - black-jupyter  
