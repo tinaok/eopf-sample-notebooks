@@ -21,6 +21,5 @@ dependencies:
   - pip
   - pip:
       - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
-      - eopf
       - ipykernel
       - jupyterlab-myst
