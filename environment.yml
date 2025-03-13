@@ -20,6 +20,6 @@ dependencies:
   - black-jupyter
   - pip
   - pip:
-      - git+https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm.git
+      - eopf=2.5.5
       - ipykernel
       - jupyterlab-myst
