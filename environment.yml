@@ -1,4 +1,4 @@
-name: eopf-test
+name: eopf-zarr
 channels:
   - conda-forge
 dependencies:
@@ -18,8 +18,10 @@ dependencies:
   - jupyter_server
   - pre-commit
   - black-jupyter
+  - ipykernel
+  - jupyterlab-myst
   - pip
   - pip:
       - eopf==2.5.5
-      - ipykernel
-      - jupyterlab-myst
+      
+      
