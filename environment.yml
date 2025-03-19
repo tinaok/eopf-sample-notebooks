@@ -23,5 +23,3 @@ dependencies:
   - pip
   - pip:
       - eopf==2.5.5
-      
-      
