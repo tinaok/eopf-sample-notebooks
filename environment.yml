@@ -20,6 +20,7 @@ dependencies:
   - black-jupyter
   - ipykernel
   - jupyterlab-myst
+  - python-graphviz
   - pip
   - pip:
       - eopf==2.5.5
