@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11.7
-  - xarray
+  - xarray=2024.11.0
   - folium
   - graphviz
   - mapclassify
