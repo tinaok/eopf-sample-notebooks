@@ -17,6 +17,12 @@ project:
     content: CC-BY-4.0
     code: Apache-2.0
   copyright: "2025" # Copyright year to be placed in the footer
+  jupyter:
+      binder:
+          url: https://binderhub.user.eopf.eodc.eu/
+          repo: EOPF-Sample-Service/eopf-sample-notebooks
+          ref: v0.3
+          provider: github
   toc:
     - file: README.md
     - title: Jupyter Notebooks
@@ -39,10 +45,4 @@ site:
   nav:
     - title: Learn More
       url: https://eopf.copernicus.eu
-  # Update the existing button to include the BinderHub link
-  buttons:
-    - icon: jupyter
-      url: "https://mybinder.org/v2/gh/EOPF-Sample-Service/eopf-sample-notebooks/v0.2?urlpath=tree/{{ page.file }}"
-      tooltip: Open in Jupyter Notebook
-      placement: right
   domains: []
