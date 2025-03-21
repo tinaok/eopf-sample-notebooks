@@ -2,7 +2,7 @@ name: eopf-zarr
 channels:
   - conda-forge
 dependencies:
-  - python=3.11.7
+  - python=3.11
   - xarray=2024.11.0
   - folium
   - graphviz
