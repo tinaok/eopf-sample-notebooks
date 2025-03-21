@@ -23,7 +23,7 @@ project:
       children:
         - file: template/template.ipynb
         - file: Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A.ipynb
-        - file: EOPF_Tutorials/Sentinel-2_L1C_MSI_product_format_prototype.ipynb
+        - file: Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_GRD_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype.ipynb
