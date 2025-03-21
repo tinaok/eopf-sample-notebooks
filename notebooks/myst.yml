@@ -27,6 +27,10 @@ project:
         - file: EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype.ipynb
+  binder:
+    url: https://mybinder.org
+    repo: EOPF-Sample-Service/eopf-sample-notebooks
+    ref: v0.1
   # bibliography: []
   subject: earth and related environmental sciences
 site:
