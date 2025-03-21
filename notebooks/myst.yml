@@ -21,6 +21,7 @@ project:
     - file: README.md
     - title: Jupyter Notebooks
       children:
+        - file: template/template.ipynb
         - file: Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A.ipynb
         - file: EOPF_Tutorials/Sentinel-2_L1C_MSI_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_GRD_product_format_prototype.ipynb
@@ -38,4 +39,10 @@ site:
   nav:
     - title: Learn More
       url: https://eopf.copernicus.eu
+  # Update the existing button to include the BinderHub link
+  buttons:
+    - icon: jupyter
+      url: "https://mybinder.org/v2/gh/EOPF-Sample-Service/eopf-sample-notebooks/v0.2?urlpath=tree/{{ page.file }}"
+      tooltip: Open in Jupyter Notebook
+      placement: right
   domains: []
