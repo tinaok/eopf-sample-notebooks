@@ -10,7 +10,7 @@ project:
           institution: ESA
           ror: https://ror.org/03wd9za21
   github: https://github.com/EOPF-Sample-Service/eopf-sample-notebooks
-  jupyter: 
+  jupyter:
     binder:
       repo: EOPF-Sample-Service/eopf-sample-notebooks
       url: https://binderhub.user.eopf.eodc.eu
