@@ -22,13 +22,17 @@ project:
   copyright: "2025" # Copyright year to be placed in the footer
   toc:
     - file: README.md
-    - title: Jupyter Notebooks
+    - title: Sentinel-2
       children:
         - file: Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A.ipynb
         - file: Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration.ipynb
+    - title: Sentinel-1
+      children:
         - file: EOPF_Tutorials/Sentinel-1_L1_GRD_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype.ipynb
+    - title: Sentinel-3
+      children:
         - file: EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype.ipynb
   # bibliography: []
   subject: earth and related environmental sciences
@@ -40,5 +44,5 @@ site:
     revision: 2025-02-01
   nav:
     - title: Learn More
-      url: https://eopf.copernicus.eu
+      url: https://zarr.eopf.copernicus.eu/
   domains: []

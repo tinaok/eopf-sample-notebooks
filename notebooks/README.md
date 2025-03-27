@@ -1,6 +1,6 @@
-# 👋 Welcome to EOPF Sample Service Notebooks
+# 👋 Welcome to EOPF Sentinel Zarr Samples Notebooks
 
-The Sentinels EOPF Sample Service project is composed of several components, each implemented and maintained by experts from the tendering consortium. The core component, the EOPF Core Platform, is responsible for delivering EOPF Zarr data products to users. Key features include re-formatting ingested SAFE data into EOPF Zarr data products and providing data access via STAC API and S3 API.
+The Sentinels EOPF Sentinel Zarr Samples project is composed of several components, each implemented and maintained by experts from the tendering consortium. The core component, the EOPF Core Platform, is responsible for delivering EOPF Zarr data products to users. Key features include re-formatting ingested SAFE data into EOPF Zarr data products and providing data access via STAC API and S3 API.
 
 Additional user services are provided through the EOPF User Platform, which hosts applications like JupyterHub, Dask, and a STAC Browser. These technologies support user adoption of the new EOPF Zarr data products by lowering the barrier to cloud applications and data discovery.
 
