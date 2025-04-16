@@ -2,8 +2,8 @@ name: eopf-zarr
 channels:
   - conda-forge
 dependencies:
-  - python=3.11.7
-  - xarray
+  - python=3.11
+  - xarray=2024.11.0
   - folium
   - graphviz
   - mapclassify
@@ -14,9 +14,9 @@ dependencies:
   - numpy=1.26.4
   - mystmd
   - cartopy
-  - jupyter_server
-  - pre-commit
-  - black-jupyter
+  - gdal
+  - jupyterlab-myst
+  - python-graphviz
   - pip
   - pip:
-      - eopf
+      - eopf==2.5.5
