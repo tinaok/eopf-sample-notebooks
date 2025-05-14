@@ -6,6 +6,7 @@ import scipy.ndimage
 from xarray import DataArray
 from skimage import segmentation, graph
 from skimage.filters import sobel
+from skimage.util import view_as_windows
 import functools
 import gc
 import sys
@@ -17,6 +18,26 @@ import xarray as xr
 sys.path.insert(1, "onnx_deps")
 
 import onnxruntime as ort
+
+
+def tile_cube(cube: xr.DataArray, tile_size=128, overlap=32):
+    step = tile_size - overlap
+    padded = cube.pad(x=overlap, y=overlap, mode='reflect')
+    x_tiles = view_as_windows(padded.x.values, step=step, window_shape=(tile_size,))
+    y_tiles = view_as_windows(padded.y.values, step=step, window_shape=(tile_size,))
+    
+    tiles = []
+    for i in range(y_tiles.shape[0]):
+        for j in range(x_tiles.shape[0]):
+            x_start = padded.x[i * step].item()
+            y_start = padded.y[j * step].item()
+            tile = padded.sel(
+                x=slice(x_start, x_start + tile_size),
+                y=slice(y_start, y_start + tile_size)
+            )
+            tiles.append(((i, j), tile))
+    return tiles, x_tiles.shape
+
 
 def apply_kernel(data: xr.DataArray, kernel: np.ndarray, mode="constant", cval=0) -> xr.DataArray:
     def convolve(data_chunk):
@@ -220,7 +241,6 @@ def preprocess_datacube(cubearray: xr.DataArray, min_images: int) -> tuple[bool,
     # Check if data is valid for machine learning. If invalid, return True and
     # an DataArray of nan values (similar to the machine learning output)
     if (sum_invalid_mean.data < 1).sum() <= min_images:   # number of invalid time sample less then min images
-        inspect(message="Input data is invalid for this window -> skipping!")
         # create a nan dataset and return
         nan_data = xr.zeros_like(nvdi_stack.sel(t = sum_invalid_mean.t[0], drop=True))
         nan_data = nan_data.where(lambda nan_data: nan_data > 1)
