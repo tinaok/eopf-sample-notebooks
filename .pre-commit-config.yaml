@@ -12,13 +12,12 @@ default_language_version:
   python: python3
 
 ci:
-  # pre-commit.ci will open PRs updating our hooks once a month
   autoupdate_schedule: monthly
 
 exclude: "code_of_conduct.md|rule_of_participation.md"
 
 repos:
-  # autoformat and lint Python code
+  # Autoformat and lint Python code (exclude notebooks from ruff-format)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.9.6
     hooks:
@@ -26,9 +25,10 @@ repos:
         types_or: [python, jupyter]
         args: ["--fix", "--show-fixes"]
       - id: ruff-format
-        types_or: [python, jupyter]
+        types_or: [python] # Exclude jupyter
+        exclude: \.ipynb$
 
-  # Autoformat: markdown, yaml, javascript (see the file .prettierignore)
+  # Autoformat: markdown, yaml, javascript
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
@@ -43,14 +43,24 @@ repos:
       - id: check-case-conflict
       - id: check-executables-have-shebangs
 
-  # Black Checking
+  # Black for Python files
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 24.8.0
     hooks:
       - id: black
+        types: [python]
 
-  # Using this mirror lets us use mypyc-compiled black, which is about 2x faster
+  # Black for Jupyter notebooks
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 24.8.0
     hooks:
       - id: black-jupyter
+        types: [jupyter]
+
+  # NBQA for notebook-specific black formatting
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.0
+    hooks:
+      - id: nbqa-black
+        args: [--nbqa-mutate]
+        types: [jupyter]
