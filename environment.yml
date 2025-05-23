@@ -18,7 +18,7 @@ dependencies:
   - gdal
   - jupyterlab-myst
   - python-graphviz
-  - pystac_client
+  - pystac-client
   - pip
   - pip:
       - eopf==2.5.5
