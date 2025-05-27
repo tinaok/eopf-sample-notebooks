@@ -15,3 +15,8 @@ Please refer to the [Notebooks Guideline](./notebooks/README.md)
 ## How to contribute
 
 Please refer to the [Contributing Guideline](CONTRIBUTING.md)
+
+## STAC
+
+Discover the available sample datasets using the STAC Browser:
+https://stac.browser.user.eopf.eodc.eu 
