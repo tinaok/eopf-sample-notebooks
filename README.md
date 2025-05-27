@@ -4,14 +4,14 @@
 
 Main project website: https://zarr.eopf.copernicus.eu/
 
-This repository contains, in the notebooks folder, a collection of Python notebooks demonstrating the usage of the [EOPF-CPM library](https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm) and the new Sentinel data in [Zarr](https://zarr.dev) format.
+This repository contains, in the notebooks folder, a collection of Python notebooks demonstrating the usage of the Sentinel data in [Zarr](https://zarr.dev) format, converted using the [EOPF-CPM library](https://gitlab.eopf.copernicus.eu/cpm/eopf-cpm).
 
-Rendered version of the notebooks deployed via GitHub actions are available here: https://eopf-sample-service.github.io/eopf-sample-notebooks/
+Rendered version of the notebooks are available here: https://eopf-sample-service.github.io/eopf-sample-notebooks/
 
 ## How to run the notebooks
 
-Please refer to the [Notebooks Guideline](#./notebooks/README.md)
+Please refer to the [Notebooks Guideline](./notebooks/README.md)
 
 ## How to contribute
 
-Please refer to the [Contributing Guideline](#CONTRIBUTING.md)
+Please refer to the [Contributing Guideline](CONTRIBUTING.md)
