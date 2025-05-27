@@ -8,18 +8,24 @@ The notebooks can be run on the **EOPF Sample Service JupyterHub**.
 
 ![Screenshot: JupyterHub Login Page](static/Hub_login.png)
 
+---
+
 Click **Sign in with CDSE IdP** to proceed.
 
 You will be redirected to the CDSE login page:
 
 ![Screenshot: CDSE Login Page](static/CDSE_login.png)
 
+---
+
 Please log in using your **CDSE user account**.  
-If you do not have one, refer to the **first webinar instructions** on how to create an account for CDSE services.
+If you do not have one, create one now, it's free!
 
 Once logged in, you will see the following interface:
 
 ![Screenshot: Start Server](static/Start_hub.png)
+
+---
 
 Click **Start My Server** to launch your Jupyter session.
 
@@ -31,6 +37,8 @@ After starting your server, you will be directed to the JupyterHub Launcher.
 
 ![Screenshot: Environment Selection](static/Choose_env.png)
 
+---
+
 Leave the selection on `Default Image` and start you server!
 
 ---
@@ -40,6 +48,8 @@ Leave the selection on `Default Image` and start you server!
 Once your environment is running, click on the **Git icon** in the left sidebar.
 
 ![Screenshot: Git Interface](static/git.png)
+
+---
 
 Choose **Clone a Repository**, then paste the following URL and click `Clone` to get the notebooks into your workspace:
 
