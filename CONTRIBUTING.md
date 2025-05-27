@@ -62,28 +62,28 @@ The assigned contributor must:
 3. Create a corresponding Issue in the `eopf-sample-data` repository listing the datasets to be prepared and converted to Zarr format.
 
 #### 2.3 Notebook Implementation
-2.3.1 Data Availability
+##### 2.3.1 Data Availability  
 - Notebook development should begin after the necessary data is available in the required format (Zarr).
 
-2.3.2 Template Compliance
+##### 2.3.2 Template Compliance  
 - All notebooks must adhere to the [standardized template](https://github.com/EOPF-Sample-Service/eopf-sample-notebooks/blob/main/notebooks/template/template.ipynb).
 - The template ensures consistency in structure, formatting and metadata.
 - Contributors should refer to the existing notebooks available in the repository before starting implementation.
 
-2.3.3 Python Environment
+##### 2.3.3 Python Environment  
 If you are using Python libraries which are not yet available in the [conda environment available here](https://github.com/EOPF-Sample-Service/eopf-sample-notebooks/blob/main/environment.yml), add them in the `environment.yml` and test if the conda environment can be created successfully. If the environment has to be updated, please mention it in the [eopf-container-images](https://github.com/EOPF-Sample-Service/eopf-container-images) repository, so that the env available at https://jupyterhub.user.eopf.eodc.eu can also be updated and be ready to run the notebook.
 
-2.3.4 MyST Rendering
+##### 2.3.4 MyST Rendering  
 Each notebook needs to have an entry in the [myst.yml](https://github.com/EOPF-Sample-Service/eopf-sample-notebooks/blob/main/notebooks/myst.yml) configuration file if you want it to be rendered as an html page. Please add a new row for your notebook before submitting the PR.
 
-2.3.5 Submission
+##### 2.3.5 Submission  
 Once the implementation is complete:
 - Run the formatting checks as mentioned above.
 - Submit a Pull Request (PR) against the `/dev` branch.
 - Reference the original issue in the PR description.
 
 #### 2.4 Quality Assurance
-2.4.1. Automated Checks
+##### 2.4.1. Automated Checks
 - GitHub Actions are configured to run:
  - Code formatting checks.
  - Code quality tests.
