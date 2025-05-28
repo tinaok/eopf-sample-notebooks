@@ -31,7 +31,7 @@ project:
         - file: Sentinel-2/deforestation_monitoring_zarr.ipynb
         - file: Sentinel-2/NDVI_based_landslide_mapping.ipynb
         - file: xarray_eopf_plugin/introduction_xarray_eopf_plugin.ipynb
-        - file: EOPF_Tutorials/Sentinel-1_L1_GRD_product_format_prototype.ipynb
+        - file: Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype.ipynb
         - file: EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype.ipynb
