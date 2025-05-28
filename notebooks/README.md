@@ -45,16 +45,23 @@ Leave the selection on `Default Image` and start you server!
 
 ## Cloning the Webinar Repository
 
-Once your environment is running, click on the **Git icon** in the left sidebar.
+Once your environment is running, open the **workspace** folder.
+**Remember: only the files stored in this folder will remain after closing JupyterHub!**
 
-![Screenshot: Git Interface](static/git.png)
+![Screenshot: Workspace](static/workspace_click.jpg)
 
 ---
 
-Choose **Clone a Repository**, then paste the following URL and click `Clone` to get the notebooks into your workspace:
+Open now a Terminal:
+
+![Screenshot: Terminal](static/terminal_click.jpg)
+
+---
+
+Finally paste the following command and hit _Enter_ on the keyboard to get the notebooks into your workspace:
 
 ```
-https://github.com/EOPF-Sample-Service/eopf-sample-notebooks.git
+git clone https://github.com/EOPF-Sample-Service/eopf-sample-notebooks.git
 ```
 
 ---
