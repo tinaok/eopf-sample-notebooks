@@ -1,4 +1,3 @@
-# 
 import numpy as np
 import xarray as xr
 from typing import Optional, Union, Dict
@@ -13,16 +12,121 @@ import sys
 from typing import Dict
 import random
 import xarray as xr
+import logging
 
 # Add the onnx dependencies to the path
-sys.path.insert(1, "onnx_deps")
+sys.path.insert(1, "../onnx_models/dependencies")
 
 import onnxruntime as ort
 
 
+import numpy as np
+import xarray as xr
+import onnxruntime as ort
+from skimage.util import view_as_windows
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S'
+                    )
+logger = logging.getLogger(__name__)
+
+class ONNXSegmentationInference:
+    def __init__(self, model_path: str, tile_size: int = 128, overlap: int = 32):
+        self.model_path = model_path
+        self.tile_size = tile_size
+        self.overlap = overlap
+        self.ort_session = ort.InferenceSession(model_path)
+        logger.info(f"Loaded ONNX model from {model_path} with tile size {tile_size} and overlap {overlap}")
+
+    def tile(self, data: xr.DataArray):
+        step = self.tile_size - self.overlap
+        padded = data.pad(x=self.overlap, y=self.overlap, mode='reflect')
+        x_tiles = view_as_windows(padded.x.values, step=step, window_shape=(self.tile_size,))
+        y_tiles = view_as_windows(padded.y.values, step=step, window_shape=(self.tile_size,))
+        logger.info(f"Tiling data into {x_tiles.shape[0]} x {y_tiles.shape[0]} tiles of size {self.tile_size} with overlap {self.overlap}")
+        tiles = []
+        for i in range(y_tiles.shape[0]):
+            for j in range(x_tiles.shape[0]):
+                x_idx = i * step
+                y_idx = j * step
+                tile = padded.isel(
+                    x=slice(x_idx, x_idx + self.tile_size),
+                    y=slice(y_idx, y_idx + self.tile_size)
+                )
+                tiles.append(((i, j), tile))
+        return tiles, padded
+
+    def infer_tile(self, tile: xr.DataArray):
+        arr = tile.values
+        if arr.ndim == 2:
+            raise ValueError("Tile must have 3 bands/time steps for model input.")
+        if arr.shape[0] != 3:
+            raise ValueError(f"Tile must have 3 bands/time steps, got {arr.shape[0]}")
+        arr = np.transpose(arr, (1, 2, 0))  # (128, 128, 3)
+        arr = arr.reshape(1, 128*128, 3)    # (1, 16384, 3)
+        arr = arr.astype(np.float32)
+        input_name = self.ort_session.get_inputs()[0].name
+        pred = self.ort_session.run(None, {input_name: arr})[0]
+        pred = np.squeeze(pred)
+    # --- Fix: reshape if needed ---
+        if pred.shape == (128*128,):
+            pred = pred.reshape((128, 128))
+        elif pred.shape == (1, 128, 128):
+            pred = pred[0]
+        elif pred.shape == (128, 128):
+            pass
+        else:
+            raise ValueError(f"Unexpected prediction shape: {pred.shape}")
+        return pred
+
+    def stitch(self, tiles, padded_shape, original_shape):
+        # Simple average in overlap regions
+        logger.info(f"Stitching {len(tiles)} tiles into shape {padded_shape} with original shape {original_shape}")
+        result = np.zeros(padded_shape, dtype=np.float32)
+        count = np.zeros(padded_shape, dtype=np.float32)
+        step = self.tile_size - self.overlap
+        idx = 0
+        for i in range(0, padded_shape[0] - self.tile_size + 1, step):
+            for j in range(0, padded_shape[1] - self.tile_size + 1, step):
+                result[i:i+self.tile_size, j:j+self.tile_size] += tiles[idx]
+                count[i:i+self.tile_size, j:j+self.tile_size] += 1
+                idx += 1
+        # Avoid division by zero
+        result = result / np.maximum(count, 1)
+        # Crop to original shape
+        x0 = self.overlap
+        y0 = self.overlap
+        x1 = x0 + original_shape[0]
+        y1 = y0 + original_shape[1]
+        return result[x0:x1, y0:y1]
+
+    def run(self, data: xr.DataArray):
+        tiles, padded = self.tile(data)
+        logger.info(f"Running inference on {len(tiles)} tiles")
+        # select only 5% of the tiles for inference to save time
+        if len(tiles) > 100:
+            tiles = random.sample(tiles, max(1, len(tiles) // 20))
+        logger.info(f"Selected {len(tiles)} tiles for inference")
+        preds = [self.infer_tile(tile) for _, tile in tiles]
+        logger.info(f"Stitching {len(preds)} predictions")
+        stitched = self.stitch(
+            preds,
+            padded.shape[-2:],  # (x, y)
+            data.shape[-2:]
+        )
+        logger.info(f"Stitched prediction shape: {stitched.shape}")
+        # Return as DataArray with original coords
+        return xr.DataArray(
+            stitched,
+            dims=("x", "y"),
+            coords={"x": data.x, "y": data.y}
+        )
+
 def tile_cube(cube: xr.DataArray, tile_size=128, overlap=32):
     step = tile_size - overlap
     padded = cube.pad(x=overlap, y=overlap, mode='reflect')
+    print(np.unique(padded['x']).size == padded['x'].size)
     x_tiles = view_as_windows(padded.x.values, step=step, window_shape=(tile_size,))
     y_tiles = view_as_windows(padded.y.values, step=step, window_shape=(tile_size,))
     
