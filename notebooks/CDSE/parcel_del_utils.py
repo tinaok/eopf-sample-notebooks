@@ -1,6 +1,6 @@
 import numpy as np
 import xarray as xr
-from typing import Optional, Union, Dict
+from typing import Dict
 import scipy.ndimage
 from xarray import DataArray
 from skimage import segmentation, graph
@@ -9,9 +9,7 @@ from skimage.util import view_as_windows
 import functools
 import gc
 import sys
-from typing import Dict
 import random
-import xarray as xr
 import logging
 
 # Add the onnx dependencies to the path
@@ -20,16 +18,13 @@ sys.path.insert(1, "../onnx_models/dependencies")
 import onnxruntime as ort
 
 
-import numpy as np
-import xarray as xr
-import onnxruntime as ort
-from skimage.util import view_as_windows
-
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S'
-                    )
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 logger = logging.getLogger(__name__)
+
 
 class ONNXSegmentationInference:
     def __init__(self, model_path: str, tile_size: int = 128, overlap: int = 32):
@@ -37,14 +32,22 @@ class ONNXSegmentationInference:
         self.tile_size = tile_size
         self.overlap = overlap
         self.ort_session = ort.InferenceSession(model_path)
-        logger.info(f"Loaded ONNX model from {model_path} with tile size {tile_size} and overlap {overlap}")
+        logger.info(
+            f"Loaded ONNX model from {model_path} with tile size {tile_size} and overlap {overlap}"
+        )
 
     def tile(self, data: xr.DataArray):
         step = self.tile_size - self.overlap
-        padded = data.pad(x=self.overlap, y=self.overlap, mode='reflect')
-        x_tiles = view_as_windows(padded.x.values, step=step, window_shape=(self.tile_size,))
-        y_tiles = view_as_windows(padded.y.values, step=step, window_shape=(self.tile_size,))
-        logger.info(f"Tiling data into {x_tiles.shape[0]} x {y_tiles.shape[0]} tiles of size {self.tile_size} with overlap {self.overlap}")
+        padded = data.pad(x=self.overlap, y=self.overlap, mode="reflect")
+        x_tiles = view_as_windows(
+            padded.x.values, step=step, window_shape=(self.tile_size,)
+        )
+        y_tiles = view_as_windows(
+            padded.y.values, step=step, window_shape=(self.tile_size,)
+        )
+        logger.info(
+            f"Tiling data into {x_tiles.shape[0]} x {y_tiles.shape[0]} tiles of size {self.tile_size} with overlap {self.overlap}"
+        )
         tiles = []
         for i in range(y_tiles.shape[0]):
             for j in range(x_tiles.shape[0]):
@@ -52,7 +55,7 @@ class ONNXSegmentationInference:
                 y_idx = j * step
                 tile = padded.isel(
                     x=slice(x_idx, x_idx + self.tile_size),
-                    y=slice(y_idx, y_idx + self.tile_size)
+                    y=slice(y_idx, y_idx + self.tile_size),
                 )
                 tiles.append(((i, j), tile))
         return tiles, padded
@@ -64,13 +67,13 @@ class ONNXSegmentationInference:
         if arr.shape[0] != 3:
             raise ValueError(f"Tile must have 3 bands/time steps, got {arr.shape[0]}")
         arr = np.transpose(arr, (1, 2, 0))  # (128, 128, 3)
-        arr = arr.reshape(1, 128*128, 3)    # (1, 16384, 3)
+        arr = arr.reshape(1, 128 * 128, 3)  # (1, 16384, 3)
         arr = arr.astype(np.float32)
         input_name = self.ort_session.get_inputs()[0].name
         pred = self.ort_session.run(None, {input_name: arr})[0]
         pred = np.squeeze(pred)
-    # --- Fix: reshape if needed ---
-        if pred.shape == (128*128,):
+        # --- Fix: reshape if needed ---
+        if pred.shape == (128 * 128,):
             pred = pred.reshape((128, 128))
         elif pred.shape == (1, 128, 128):
             pred = pred[0]
@@ -82,15 +85,17 @@ class ONNXSegmentationInference:
 
     def stitch(self, tiles, padded_shape, original_shape):
         # Simple average in overlap regions
-        logger.info(f"Stitching {len(tiles)} tiles into shape {padded_shape} with original shape {original_shape}")
+        logger.info(
+            f"Stitching {len(tiles)} tiles into shape {padded_shape} with original shape {original_shape}"
+        )
         result = np.zeros(padded_shape, dtype=np.float32)
         count = np.zeros(padded_shape, dtype=np.float32)
         step = self.tile_size - self.overlap
         idx = 0
         for i in range(0, padded_shape[0] - self.tile_size + 1, step):
             for j in range(0, padded_shape[1] - self.tile_size + 1, step):
-                result[i:i+self.tile_size, j:j+self.tile_size] += tiles[idx]
-                count[i:i+self.tile_size, j:j+self.tile_size] += 1
+                result[i : i + self.tile_size, j : j + self.tile_size] += tiles[idx]
+                count[i : i + self.tile_size, j : j + self.tile_size] += 1
                 idx += 1
         # Avoid division by zero
         result = result / np.maximum(count, 1)
@@ -113,23 +118,22 @@ class ONNXSegmentationInference:
         stitched = self.stitch(
             preds,
             padded.shape[-2:],  # (x, y)
-            data.shape[-2:]
+            data.shape[-2:],
         )
         logger.info(f"Stitched prediction shape: {stitched.shape}")
         # Return as DataArray with original coords
         return xr.DataArray(
-            stitched,
-            dims=("x", "y"),
-            coords={"x": data.x, "y": data.y}
+            stitched, dims=("x", "y"), coords={"x": data.x, "y": data.y}
         )
+
 
 def tile_cube(cube: xr.DataArray, tile_size=128, overlap=32):
     step = tile_size - overlap
-    padded = cube.pad(x=overlap, y=overlap, mode='reflect')
-    print(np.unique(padded['x']).size == padded['x'].size)
+    padded = cube.pad(x=overlap, y=overlap, mode="reflect")
+    print(np.unique(padded["x"]).size == padded["x"].size)
     x_tiles = view_as_windows(padded.x.values, step=step, window_shape=(tile_size,))
     y_tiles = view_as_windows(padded.y.values, step=step, window_shape=(tile_size,))
-    
+
     tiles = []
     for i in range(y_tiles.shape[0]):
         for j in range(x_tiles.shape[0]):
@@ -137,15 +141,19 @@ def tile_cube(cube: xr.DataArray, tile_size=128, overlap=32):
             y_start = padded.y[j * step].item()
             tile = padded.sel(
                 x=slice(x_start, x_start + tile_size),
-                y=slice(y_start, y_start + tile_size)
+                y=slice(y_start, y_start + tile_size),
             )
             tiles.append(((i, j), tile))
     return tiles, x_tiles.shape
 
 
-def apply_kernel(data: xr.DataArray, kernel: np.ndarray, mode="constant", cval=0) -> xr.DataArray:
+def apply_kernel(
+    data: xr.DataArray, kernel: np.ndarray, mode="constant", cval=0
+) -> xr.DataArray:
     def convolve(data_chunk):
-        return scipy.ndimage.binary_dilation(data_chunk, structure=kernel).astype(np.uint8)
+        return scipy.ndimage.binary_dilation(data_chunk, structure=kernel).astype(
+            np.uint8
+        )
 
     return xr.apply_ufunc(
         convolve,
@@ -157,7 +165,7 @@ def apply_kernel(data: xr.DataArray, kernel: np.ndarray, mode="constant", cval=0
         output_dtypes=[np.uint8],
         dask_gufunc_kwargs={
             "allow_rechunk": True,
-            }
+        },
     )
 
 
@@ -185,7 +193,9 @@ def scl_to_cloud_mask(scl: xr.DataArray) -> xr.DataArray:
     combined_mask = (mask1_dilated | mask2_dilated).astype(np.uint8)
 
     def erode(data_chunk):
-        return scipy.ndimage.binary_erosion(data_chunk, structure=erosion_kernel).astype(np.uint8)
+        return scipy.ndimage.binary_erosion(
+            data_chunk, structure=erosion_kernel
+        ).astype(np.uint8)
 
     cloud_mask = xr.apply_ufunc(
         erode,
@@ -200,33 +210,39 @@ def scl_to_cloud_mask(scl: xr.DataArray) -> xr.DataArray:
     return cloud_mask
 
 
-
-
 def apply_datacube(cube: DataArray, context: Dict) -> DataArray:
     # get the underlying array without the bands and t dimension
     _data = cube.squeeze("t", drop=True).squeeze("bands", drop=True).values
     # compute edges
     edges = sobel(_data)
     # Perform felzenszwalb segmentation
-    segment = segmentation.felzenszwalb(_data, scale=120, sigma=0.0, min_size=30, channel_axis=None)
+    segment = segmentation.felzenszwalb(
+        _data, scale=120, sigma=0.0, min_size=30, channel_axis=None
+    )
     # Perform the rag boundary analysis and merge the segments
     bgraph = graph.rag_boundary(segment, edges)
     # merging segments
     mergedsegment = graph.cut_threshold(segment, bgraph, 0.15, in_place=False)
     # create a data cube and perform masking operations
-    output_arr = DataArray(mergedsegment.reshape(cube.shape), dims=cube.dims, coords=cube.coords)
-    output_arr = output_arr.where(cube >= 0.3)   # Mask the output pixels based on the cube values <0.3
-    output_arr = output_arr.where(output_arr >= 0)  # Mask all values less than or equal to zero
+    output_arr = DataArray(
+        mergedsegment.reshape(cube.shape), dims=cube.dims, coords=cube.coords
+    )
+    output_arr = output_arr.where(
+        cube >= 0.3
+    )  # Mask the output pixels based on the cube values <0.3
+    output_arr = output_arr.where(
+        output_arr >= 0
+    )  # Mask all values less than or equal to zero
     return output_arr
 
 
-
-
-model_names = frozenset([
-    "BelgiumCropMap_unet_3BandsGenerator_Network1.onnx",
-    "BelgiumCropMap_unet_3BandsGenerator_Network2.onnx",
-    "BelgiumCropMap_unet_3BandsGenerator_Network3.onnx",
-])
+model_names = frozenset(
+    [
+        "BelgiumCropMap_unet_3BandsGenerator_Network1.onnx",
+        "BelgiumCropMap_unet_3BandsGenerator_Network2.onnx",
+        "BelgiumCropMap_unet_3BandsGenerator_Network3.onnx",
+    ]
+)
 
 
 @functools.lru_cache(maxsize=1)
@@ -239,10 +255,7 @@ def load_ort_sessions(names):
     @return: Loaded model sessions
     """
     # inspect(message="Loading convolutional neural networks as ONNX runtime sessions ...")
-    return [
-        ort.InferenceSession(f"onnx_models/{model_name}")
-        for model_name in names
-    ]
+    return [ort.InferenceSession(f"onnx_models/{model_name}") for model_name in names]
 
 
 def process_window_onnx(ndvi_stack: xr.DataArray, patch_size=128) -> xr.DataArray:
@@ -265,12 +278,12 @@ def process_window_onnx(ndvi_stack: xr.DataArray, patch_size=128) -> xr.DataArra
         Machine learning prediction.
     """
     # we'll do 12 predictions: use 3 networks, and for each random take 3 NDVI images and repeat 4 times
-    ort_sessions = load_ort_sessions(model_names)    # get models
+    ort_sessions = load_ort_sessions(model_names)  # get models
 
     predictions_per_model = 4
-    no_rand_images = 3          # Number of random images that are needed for input
+    no_rand_images = 3  # Number of random images that are needed for input
     no_images = ndvi_stack.t.shape[0]
-    
+
     # Range of index of images
     _range = range(no_images)
     # List of all predictions
@@ -279,10 +292,16 @@ def process_window_onnx(ndvi_stack: xr.DataArray, patch_size=128) -> xr.DataArra
         # make 4 predictions per model
         for i in range(predictions_per_model):
             # initialize a predicter array
-            random.seed(i)   # without seed we will have random number leading to non-reproducible results.
-            _idx = random.choices(_range, k=no_rand_images) # Random selection of 3 images for input
-            # re-shape the input data for ML input 
-            input_data = ndvi_stack.isel(t=_idx).data.reshape(1, patch_size * patch_size, no_rand_images)
+            random.seed(
+                i
+            )  # without seed we will have random number leading to non-reproducible results.
+            _idx = random.choices(
+                _range, k=no_rand_images
+            )  # Random selection of 3 images for input
+            # re-shape the input data for ML input
+            input_data = ndvi_stack.isel(t=_idx).data.reshape(
+                1, patch_size * patch_size, no_rand_images
+            )
             ort_inputs = {ort_session.get_inputs()[0].name: input_data}
 
             # Run ML to predict
@@ -294,16 +313,22 @@ def process_window_onnx(ndvi_stack: xr.DataArray, patch_size=128) -> xr.DataArra
     gc.collect()
 
     # Create a DataArray of all predictions
-    all_predictions = xr.DataArray(prediction, dims=["predict", "x", "y"],
-                                   coords={"predict": range(len(prediction)),
-                                           "x": ndvi_stack.coords["x"],
-                                           "y": ndvi_stack.coords["y"]}
-                                   )
+    all_predictions = xr.DataArray(
+        prediction,
+        dims=["predict", "x", "y"],
+        coords={
+            "predict": range(len(prediction)),
+            "x": ndvi_stack.coords["x"],
+            "y": ndvi_stack.coords["y"],
+        },
+    )
     # final prediction is the median of all predictions per pixel
     return all_predictions.median(dim="predict")
 
 
-def preprocess_datacube(cubearray: xr.DataArray, min_images: int) -> tuple[bool, xr.DataArray]:
+def preprocess_datacube(
+    cubearray: xr.DataArray, min_images: int
+) -> tuple[bool, xr.DataArray]:
     """Preprocess data for machine learning.
 
     Preprocess data by clamping NVDI values and first check if the
@@ -335,45 +360,53 @@ def preprocess_datacube(cubearray: xr.DataArray, min_images: int) -> tuple[bool,
     nvdi_stack = nvdi_stack.where(lambda nvdi_stack: nvdi_stack < 0.92, 0.92)
     nvdi_stack = nvdi_stack.where(lambda nvdi_stack: nvdi_stack > -0.08)
     nvdi_stack += 0.08
-    # Count the amount of invalid pixels in each time sample. 
-    sum_invalid = nvdi_stack.isnull().sum(dim=['x', 'y'])
+    # Count the amount of invalid pixels in each time sample.
+    sum_invalid = nvdi_stack.isnull().sum(dim=["x", "y"])
     # Check % of invalid pixels in each time sample by using mean
-    sum_invalid_mean = nvdi_stack.isnull().mean(dim=['x', 'y'])
+    sum_invalid_mean = nvdi_stack.isnull().mean(dim=["x", "y"])
     # Fill the invalid pixels with value 0
     nvdi_stack_data = nvdi_stack.fillna(0)
 
     # Check if data is valid for machine learning. If invalid, return True and
     # an DataArray of nan values (similar to the machine learning output)
-    if (sum_invalid_mean.data < 1).sum() <= min_images:   # number of invalid time sample less then min images
+    if (
+        sum_invalid_mean.data < 1
+    ).sum() <= min_images:  # number of invalid time sample less then min images
         # create a nan dataset and return
-        nan_data = xr.zeros_like(nvdi_stack.sel(t = sum_invalid_mean.t[0], drop=True))
+        nan_data = xr.zeros_like(nvdi_stack.sel(t=sum_invalid_mean.t[0], drop=True))
         nan_data = nan_data.where(lambda nan_data: nan_data > 1)
         return True, nan_data
 
     # Data selection: valid data for machine learning
     # select time samples where there are no invalid pixels
     if (sum_invalid.data == 0).sum() >= min_images:
-        good_data = nvdi_stack_data.sel(t = sum_invalid[sum_invalid.data == 0].t)
-    else:      # select the 4 best time samples with least amount of invalid pixels.
-        good_data = nvdi_stack_data.sel(t = sum_invalid.sortby(sum_invalid).t[:min_images])
+        good_data = nvdi_stack_data.sel(t=sum_invalid[sum_invalid.data == 0].t)
+    else:  # select the 4 best time samples with least amount of invalid pixels.
+        good_data = nvdi_stack_data.sel(
+            t=sum_invalid.sortby(sum_invalid).t[:min_images]
+        )
     return False, good_data.transpose("x", "y", "t")
 
 
 def apply_datacube_segmentation(cube: xr.DataArray, context: Dict) -> xr.DataArray:
     # select atleast best 4 temporal images of ndvi for ML
     min_images = 4
-    
+
     # preprocess the datacube
     invalid_data, ndvi_stack = preprocess_datacube(cube, min_images)
 
     # If data is invalid, there is no need to run prediction algorithm so
-    # return prediction as nan DataArray and reintroduce time and bands dimensions 
+    # return prediction as nan DataArray and reintroduce time and bands dimensions
     if invalid_data:
-        return ndvi_stack.expand_dims(dim={"t": [(cube.t.dt.year.values[0])], "bands": ["prediction"]})
-    
+        return ndvi_stack.expand_dims(
+            dim={"t": [(cube.t.dt.year.values[0])], "bands": ["prediction"]}
+        )
+
     # Machine learning prediction: process the window
     result = process_window_onnx(ndvi_stack)
     # Reintroduce time and bands dimensions
-    result_xarray = result.expand_dims(dim={"t": [(cube.t.dt.year.values[0])], "bands": ["prediction"]})
+    result_xarray = result.expand_dims(
+        dim={"t": [(cube.t.dt.year.values[0])], "bands": ["prediction"]}
+    )
     # Return the resulting xarray
     return result_xarray
