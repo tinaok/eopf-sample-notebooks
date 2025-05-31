@@ -1,0 +1,15 @@
+version: 1
+project:
+  open_access: true
+  license:
+    content: CC-BY-4.0
+    code: MIT
+site:
+  template: book-theme
+  options:
+    favicon: https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/main/static/favicon.ico
+    logo_text: EOPF-Sample-Service
+
+  actions:
+    - title: Learn More
+      url: https://eopf.copernicus.eu
