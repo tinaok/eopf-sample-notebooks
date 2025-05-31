@@ -7,7 +7,7 @@ project:
 site:
   template: book-theme
   options:
-    favicon: https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/main/static/favicon.ico
+    favicon: https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/main/notebooks/static/favicon.ico
     logo_text: EOPF-Sample-Service
 
   actions:
