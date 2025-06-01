@@ -150,33 +150,6 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Data Level Tags */
-.gallery-tag.tag-level-1 {
-  background: #95a5a6;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-level-2 {
-  background: #34495e);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Special Tags */
-.gallery-tag.tag-deforestation {
-  background: #c0392b;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-earth-observation {
-  background: #3498db;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-remote-sensing {
-  background: #9b59b6;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 /* ========================================
    END TAG COLORS
    ======================================== */
