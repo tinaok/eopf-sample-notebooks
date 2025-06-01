@@ -230,11 +230,8 @@ function renderTags(tags, hasExplicitTags = false) {
     const moreElement = remainingCount > 0 ? 
       ` <span class="gallery-tag-more">+${remainingCount} more</span>` : '';
     
-    const indicator = hasExplicitTags ? 
-      ' <span class="tag-indicator explicit" title="Explicit tags">🏷️</span>' :
-      ' <span class="tag-indicator automatic" title="Automatic tags">🤖</span>';
-    
-    return `<div class="gallery-tags">${tagElements}${moreElement}${indicator}</div>`;
+    // Remove only the indicator, keep everything else
+    return `<div class="gallery-tags">${tagElements}${moreElement}</div>`;
     
   } catch (error) {
     console.error('Error rendering tags:', error);

@@ -387,6 +387,11 @@ title: Notebook Gallery
 
 Welcome to our comprehensive collection of Earth Observation Processing Framework (EOPF) sample notebooks. Browse by category to find notebooks that match your interests and use cases.
 
+```{gallery-categories}
+```
+
+## All Notebooks
+
 ```{gallery-grid}
 :category: all
 :columns: 1 1 2 3
@@ -1106,10 +1111,6 @@ if __name__ == '__main__':
         # Generate gallery pages
         print("\n📝 Generating gallery pages...")
         generate_gallery_pages(notebook_tags, ROOT_DIR)
-        
-        # Create enhanced CSS
-        print("🎨 Creating enhanced gallery styling...")
-        create_gallery_css(ROOT_DIR)
         
         # Export metadata for MyST plugin
         print("📄 Exporting metadata for MyST plugin...")

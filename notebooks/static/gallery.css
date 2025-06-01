@@ -1,4 +1,5 @@
-/* Enhanced Gallery CSS with Stylish Tags */
+/* EOPF Gallery CSS - Static Version */
+/* Edit this file directly to customize colors and styling */
 
 /* Main gallery grid styling */
 .gallery-grid .sd-card,
@@ -67,7 +68,9 @@
   color: white;
 }
 
-/* Tag Categories with Color Coding */
+/* ========================================
+   TAG COLORS - Customize these as needed!
+   ======================================== */
 
 /* Sentinel Mission Tags */
 .gallery-tag.tag-sentinel-1 {
@@ -148,52 +151,35 @@
 }
 
 /* Data Level Tags */
-.tag.level-1 {
+.gallery-tag.tag-level-1 {
   background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.tag.level-2 {
+.gallery-tag.tag-level-2 {
   background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Special Tags */
-.tag.deforestation {
+.gallery-tag.tag-deforestation {
   background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.tag.earth-observation {
+.gallery-tag.tag-earth-observation {
   background: linear-gradient(135deg, #3498db 0%, #2874a6 100%);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.tag.remote-sensing {
+.gallery-tag.tag-remote-sensing {
   background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Tag Icons */
-.tag::before {
-  content: "🏷️";
-  margin-right: 0.375rem;
-  font-size: 0.7rem;
-}
-
-.tag.sentinel-1::before { content: "🛰️"; }
-.tag.sentinel-2::before { content: "🛰️"; }
-.tag.sentinel-3::before { content: "🛰️"; }
-.tag.land::before { content: "🌱"; }
-.tag.emergency::before { content: "🚨"; }
-.tag.climate-change::before { content: "🌡️"; }
-.tag.marine::before { content: "🌊"; }
-.tag.security::before { content: "🔒"; }
-.tag.xarray::before { content: "📊"; }
-.tag.xarray-eopf::before { content: "🔌"; }
-.tag.gdal::before { content: "🗺️"; }
-.tag.stac::before { content: "📋"; }
-.tag.zarr::before { content: "📦"; }
+/* ========================================
+   END TAG COLORS
+   ======================================== */
 
 /* Tag counter indicator */
 .gallery-tag-more {
@@ -206,23 +192,6 @@
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-}
-
-/* Explicit vs Automatic tag indicators */
-.tag-indicator {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 0.5rem;
-  font-size: 1rem;
-  opacity: 0.7;
-}
-
-.tag-indicator.explicit {
-  color: #2ecc71;
-}
-
-.tag-indicator.automatic {
-  color: #f39c12;
 }
 
 /* Card description styling */
@@ -241,7 +210,7 @@
     grid-template-columns: 1fr !important;
   }
   
-  .tag {
+  .gallery-tag {
     font-size: 0.7rem;
     padding: 0.3rem 0.6rem;
   }
@@ -252,10 +221,6 @@
 }
 
 /* Category section styling */
-.category-section {
-  margin-bottom: 3rem;
-}
-
 .category-section h2 {
   color: #2c3e50;
   border-bottom: 3px solid #3498db;
@@ -289,4 +254,13 @@
 
 .sd-card {
   animation: fadeInUp 0.5s ease-out;
+}
+
+/* Print styles */
+@media print {
+  .gallery-tag {
+    background: #f8f9fa !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+  }
 }
