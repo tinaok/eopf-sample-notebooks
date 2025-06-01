@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Auto-generate MyST gallery pages with categorized notebook cards
-Analyzes notebook content and creates tagged gallery pages
+Supports both explicit tags in notebook metadata and automatic content analysis
 """
 
 import json
@@ -10,18 +10,100 @@ from pathlib import Path
 from collections import Counter, defaultdict
 import nbformat
 
-def extract_notebook_content(notebook_path):
-    """Extract content from Jupyter notebook for analysis"""
+def extract_notebook_metadata_and_content(notebook_path):
+    """Extract explicit tags and metadata from Jupyter notebook"""
     try:
         with open(notebook_path, 'r', encoding='utf-8') as f:
             nb = nbformat.read(f, as_version=4)
         
         content = []
         imports = []
+        explicit_tags = []
+        explicit_title = None
+        explicit_description = None
+        explicit_subtitle = None
+        explicit_authors = []
+        explicit_keywords = None
         
+        # Check notebook-level metadata first
+        if 'tags' in nb.metadata:
+            explicit_tags.extend(nb.metadata['tags'])
+        
+        if 'gallery' in nb.metadata:
+            gallery_meta = nb.metadata['gallery']
+            explicit_title = gallery_meta.get('title')
+            explicit_description = gallery_meta.get('description')
+            if 'tags' in gallery_meta:
+                explicit_tags.extend(gallery_meta['tags'])
+        
+        # Process cells
         for cell in nb.cells:
             if cell.cell_type == 'markdown':
-                content.append(cell.source)
+                source = cell.source
+                content.append(source)
+                
+                # Check for YAML frontmatter in first cell
+                if source.strip().startswith('---'):
+                    try:
+                        import yaml
+                        # Extract YAML frontmatter
+                        lines = source.split('\n')
+                        yaml_end = -1
+                        for i, line in enumerate(lines[1:], 1):
+                            if line.strip() == '---':
+                                yaml_end = i
+                                break
+                        
+                        if yaml_end > 0:
+                            yaml_content = '\n'.join(lines[1:yaml_end])
+                            frontmatter = yaml.safe_load(yaml_content)
+                            
+                            # Extract metadata from frontmatter
+                            if 'title' in frontmatter:
+                                explicit_title = frontmatter['title']
+                            if 'subtitle' in frontmatter:
+                                explicit_subtitle = frontmatter['subtitle']
+                            if 'keywords' in frontmatter:
+                                if isinstance(frontmatter['keywords'], str):
+                                    explicit_keywords = frontmatter['keywords']
+                                elif isinstance(frontmatter['keywords'], list):
+                                    explicit_keywords = ', '.join(frontmatter['keywords'])
+                            if 'authors' in frontmatter:
+                                explicit_authors = frontmatter['authors']
+                            
+                            # Look for tags in keywords or custom tags field
+                            if 'tags' in frontmatter:
+                                if isinstance(frontmatter['tags'], list):
+                                    explicit_tags.extend(frontmatter['tags'])
+                                elif isinstance(frontmatter['tags'], str):
+                                    explicit_tags.extend([tag.strip() for tag in frontmatter['tags'].split(',')])
+                            
+                            # Auto-generate tags from keywords if no explicit tags
+                            if not explicit_tags and explicit_keywords:
+                                # Convert keywords to potential tags
+                                keyword_tags = keywords_to_tags(explicit_keywords)
+                                explicit_tags.extend(keyword_tags)
+                    
+                    except ImportError:
+                        print("    ⚠️  PyYAML not available for frontmatter parsing")
+                    except Exception as e:
+                        print(f"    ⚠️  Error parsing frontmatter: {e}")
+                
+                # Look for gallery comments in markdown cells (backup method)
+                if 'tags' in cell.metadata and 'gallery-info' in cell.metadata['tags']:
+                    lines = source.split('\n')
+                    for line in lines:
+                        line = line.strip()
+                        if line.startswith('<!-- GALLERY_TAGS:'):
+                            tags_str = line.replace('<!-- GALLERY_TAGS:', '').replace('-->', '').strip()
+                            explicit_tags.extend([tag.strip() for tag in tags_str.split(',')])
+                        elif line.startswith('<!-- GALLERY_TITLE:'):
+                            if not explicit_title:  # Don't override frontmatter
+                                explicit_title = line.replace('<!-- GALLERY_TITLE:', '').replace('-->', '').strip()
+                        elif line.startswith('<!-- GALLERY_DESCRIPTION:'):
+                            if not explicit_description:  # Don't override frontmatter
+                                explicit_description = line.replace('<!-- GALLERY_DESCRIPTION:', '').replace('-->', '').strip()
+                
             elif cell.cell_type == 'code':
                 source = cell.source
                 content.append(source)
@@ -32,11 +114,61 @@ def extract_notebook_content(notebook_path):
                     if line.startswith(('import ', 'from ')) and not line.startswith('#'):
                         imports.append(line)
         
-        return ' '.join(content), imports
+        # Generate description from subtitle if not explicitly set
+        if not explicit_description and explicit_subtitle:
+            explicit_description = explicit_subtitle
+        
+        return {
+            'content': ' '.join(content),
+            'imports': imports,
+            'explicit_tags': list(set(explicit_tags)),  # Remove duplicates
+            'explicit_title': explicit_title,
+            'explicit_description': explicit_description,
+            'explicit_subtitle': explicit_subtitle,
+            'explicit_authors': explicit_authors,
+            'explicit_keywords': explicit_keywords
+        }
         
     except Exception as e:
         print(f"Error reading {notebook_path}: {e}")
-        return "", []
+        return {
+            'content': "",
+            'imports': [],
+            'explicit_tags': [],
+            'explicit_title': None,
+            'explicit_description': None,
+            'explicit_subtitle': None,
+            'explicit_authors': [],
+            'explicit_keywords': None
+        }
+
+def keywords_to_tags(keywords_str):
+    """Convert keywords string to relevant tags"""
+    tags = []
+    keywords_lower = keywords_str.lower()
+    
+    # Map keywords to our tag system
+    keyword_mappings = {
+        'sentinel': ['sentinel-1', 'sentinel-2', 'sentinel-3'],
+        'earth observation': ['earth-observation'],
+        'remote sensing': ['remote-sensing'],
+        'forest': ['land'],
+        'deforestation': ['land'],
+        'agriculture': ['land'],
+        'ocean': ['marine'],
+        'climate': ['climate-change'],
+        'emergency': ['emergency'],
+        'xarray': ['xarray'],
+        'zarr': ['zarr'],
+        'gdal': ['gdal'],
+        'processing': ['data-processing']
+    }
+    
+    for keyword, tag_list in keyword_mappings.items():
+        if keyword in keywords_lower:
+            tags.extend(tag_list)
+    
+    return list(set(tags))
 
 def smart_tag_detection(content, imports, filename):
     """Intelligently detect tags based on content analysis"""
@@ -83,6 +215,18 @@ def smart_tag_detection(content, imports, filename):
     
     return list(tags)
 
+def enhanced_tag_detection(notebook_data, filename):
+    """Enhanced tag detection with explicit tag priority"""
+    
+    # Start with explicit tags if they exist
+    if notebook_data['explicit_tags']:
+        print(f"    ✅ Found explicit tags: {notebook_data['explicit_tags']}")
+        return notebook_data['explicit_tags']
+    
+    # Fall back to automatic detection
+    print(f"    🔍 No explicit tags found, using automatic detection...")
+    return smart_tag_detection(notebook_data['content'], notebook_data['imports'], filename)
+
 def find_all_notebooks(root_dir):
     """Find all notebooks in directory structure"""
     notebook_files = []
@@ -120,6 +264,16 @@ def extract_notebook_title(notebook_path):
     except Exception:
         return notebook_path.stem.replace('-', ' ').replace('_', ' ').title()
 
+def enhanced_title_extraction(notebook_path, notebook_data):
+    """Enhanced title extraction with explicit title priority"""
+    
+    # Use explicit title if available
+    if notebook_data['explicit_title']:
+        return notebook_data['explicit_title']
+    
+    # Fall back to existing extraction logic
+    return extract_notebook_title(notebook_path)
+
 def generate_gallery_pages(notebook_tags, output_dir='notebooks'):
     """Generate MyST gallery pages with cards"""
     
@@ -146,10 +300,12 @@ def generate_gallery_pages(notebook_tags, output_dir='notebooks'):
             'title': 'Tools & Libraries',
             'description': 'Notebooks demonstrating different software tools and libraries',
             'subcategories': {
-                'XArray': ['xarray'],
+                'Xarray': ['xarray'],
+                'Xarray EOPF Plugin': ['xarray-eopf'],
                 'XCube': ['xcube'], 
                 'GDAL': ['gdal'],
                 'SNAP': ['snap'],
+                'STAC': ['stac'],
                 'Zarr': ['zarr']
             },
             'file': f'{output_dir}/gallery-tools.md'
@@ -201,7 +357,12 @@ Learn different processing tools: XArray, GDAL, XCube, Zarr, and more
             
             f.write(f":::" + "{card} " + meta['title'] + "\n")
             f.write(f":link: {notebook_path}\n\n")
+            if meta.get('description'):
+                f.write(f"{meta['description']}\n\n")
             f.write(f"**Tags:** {tags_str}\n")
+            # Add indicator for explicit vs automatic tags
+            if meta.get('has_explicit_tags'):
+                f.write(f" 🏷️\n")
             f.write(":::\n\n")
         
         f.write("::::\n")
@@ -223,10 +384,11 @@ Learn different processing tools: XArray, GDAL, XCube, Zarr, and more
                 for notebook_path, meta in notebooks:
                     f.write(f":::" + "{card} " + meta['title'] + "\n")
                     f.write(f":link: {notebook_path}\n\n")
-                    description = meta.get('description', '')
-                    if description:
-                        f.write(f"{description}\n\n")
+                    if meta.get('description'):
+                        f.write(f"{meta['description']}\n\n")
                     f.write(f"**Tags:** {', '.join(meta['tags'])}\n")
+                    if meta.get('has_explicit_tags'):
+                        f.write(f" 🏷️\n")
                     f.write(":::\n\n")
                 f.write("::::\n\n")
     
@@ -248,10 +410,11 @@ Learn different processing tools: XArray, GDAL, XCube, Zarr, and more
                 for notebook_path, meta in notebooks:
                     f.write(f":::" + "{card} " + meta['title'] + "\n")
                     f.write(f":link: {notebook_path}\n\n")
-                    description = meta.get('description', '')
-                    if description:
-                        f.write(f"{description}\n\n")
+                    if meta.get('description'):
+                        f.write(f"{meta['description']}\n\n")
                     f.write(f"**Tags:** {', '.join(meta['tags'])}\n")
+                    if meta.get('has_explicit_tags'):
+                        f.write(f" 🏷️\n")
                     f.write(":::\n\n")
                 f.write("::::\n\n")
     
@@ -273,25 +436,36 @@ Learn different processing tools: XArray, GDAL, XCube, Zarr, and more
                 for notebook_path, meta in notebooks:
                     f.write(f":::" + "{card} " + meta['title'] + "\n")
                     f.write(f":link: {notebook_path}\n\n")
-                    description = meta.get('description', '')
-                    if description:
-                        f.write(f"{description}\n\n")
+                    if meta.get('description'):
+                        f.write(f"{meta['description']}\n\n")
                     f.write(f"**Tags:** {', '.join(meta['tags'])}\n")
+                    if meta.get('has_explicit_tags'):
+                        f.write(f" 🏷️\n")
                     f.write(":::\n\n")
                 f.write("::::\n\n")
 
 def analyze_notebook_content(notebook_tags):
     """Provide analysis of what was found"""
     tag_counts = Counter()
+    explicit_count = 0
+    automatic_count = 0
     
     for path, meta in notebook_tags.items():
         for tag in meta['tags']:
             tag_counts[tag] += 1
+        
+        if meta.get('has_explicit_tags'):
+            explicit_count += 1
+        else:
+            automatic_count += 1
     
     print("\n📊 Content Analysis Summary:")
     print("=" * 50)
     
     print(f"\n📓 Total notebooks analyzed: {len(notebook_tags)}")
+    print(f"🏷️  Notebooks with explicit tags: {explicit_count}")
+    print(f"🤖 Notebooks with automatic tags: {automatic_count}")
+    
     print(f"\n🏷️  Most common tags:")
     for tag, count in tag_counts.most_common(10):
         print(f"  {tag}: {count} notebooks")
@@ -301,9 +475,9 @@ def analyze_notebook_content(notebook_tags):
     for folder, count in folder_counts.items():
         print(f"  {folder}: {count} notebooks")
 
-def generate_auto_tags(root_dir='notebooks'):
-    """Generate tags with smart content analysis"""
-    print(f"🔍 Analyzing content in {root_dir} and all subfolders...")
+def analyze_notebooks(root_dir='notebooks'):
+    """Analyze all notebooks and extract tags (explicit + automatic), titles, and metadata"""
+    print(f"🔍 Analyzing notebooks in {root_dir} for gallery generation...")
     
     notebook_files = find_all_notebooks(root_dir)
     
@@ -314,21 +488,28 @@ def generate_auto_tags(root_dir='notebooks'):
     for file_path in notebook_files:
         print(f"  🔎 Analyzing: {file_path.name}")
         
-        content, imports = extract_notebook_content(file_path)
+        # Extract notebook metadata and content
+        notebook_data = extract_notebook_metadata_and_content(file_path)
+        
         relative_path = str(file_path.relative_to(root_dir)).replace('\\', '/')
         if relative_path.endswith('.ipynb'):
             relative_path = relative_path[:-6]  # Remove .ipynb extension
         
-        tags = smart_tag_detection(content, imports, file_path.name)
-        title = extract_notebook_title(file_path)
+        # Get tags (explicit first, then automatic)
+        tags = enhanced_tag_detection(notebook_data, file_path.name)
+        
+        # Get title (explicit first, then automatic)
+        title = enhanced_title_extraction(file_path, notebook_data)
         
         if tags:  # Only include if we found tags
             notebook_tags[relative_path] = {
                 'title': title,
+                'description': notebook_data['explicit_description'] or '',
                 'tags': tags,
                 'full_path': str(file_path),
                 'folder': str(file_path.parent.relative_to(root_dir)) if file_path.parent != Path(root_dir) else 'root',
-                'imports': imports[:5]  # Keep first 5 imports for reference
+                'imports': notebook_data['imports'][:5],
+                'has_explicit_tags': bool(notebook_data['explicit_tags'])
             }
         else:
             print(f"    ⚠️  No tags detected for {file_path.name}")
@@ -346,6 +527,55 @@ def generate_toc_entries(notebook_tags):
     
     print("```")
 
+def print_tag_examples():
+    """Print examples of how to add explicit tags to notebooks"""
+    print("\n📝 How to add explicit tags to your notebooks:")
+    print("=" * 60)
+    
+    print("\n🟢 Method 1: YAML Frontmatter (Recommended)")
+    print("Add this to the first markdown cell:")
+    print("""
+---
+title: Your Notebook Title
+subtitle: Descriptive subtitle for gallery
+tags: ["sentinel-2", "land", "xarray", "deforestation"]
+keywords: ["earth observation", "remote sensing", "forest monitoring"]
+authors:
+  - name: Your Name
+    orcid: 0000-0000-0000-0000
+date: 2025-03-04
+---
+""")
+    
+    print("\n🟡 Method 2: Notebook Metadata")
+    print("In JupyterLab, edit notebook metadata to include:")
+    print("""
+{
+  "metadata": {
+    "tags": ["sentinel-2", "land", "xarray"],
+    "gallery": {
+      "title": "Custom Gallery Title",
+      "description": "Custom description for gallery card"
+    }
+  }
+}
+""")
+    
+    print("\n🟠 Method 3: Markdown Cell Comments (Legacy)")
+    print("Add these comments to any markdown cell:")
+    print("""
+<!-- GALLERY_TAGS: sentinel-2, land, xarray -->
+<!-- GALLERY_TITLE: Custom Gallery Title -->
+<!-- GALLERY_DESCRIPTION: Custom description for gallery card -->
+""")
+    
+    print("\n📝 Available tag categories:")
+    print("  Sentinel: sentinel-1, sentinel-2, sentinel-3")
+    print("  Topics: land, emergency, climate-change, marine, security")
+    print("  Tools: xarray, xcube, gdal, snap, zarr")
+    print("  Levels: level-1, level-2")
+    print("\n💡 Priority: Frontmatter > Notebook Metadata > Cell Comments > Auto-detection")
+
 if __name__ == '__main__':
     ROOT_DIR = 'notebooks'  # Change this to your notebooks directory
     
@@ -356,17 +586,22 @@ if __name__ == '__main__':
             Path(file_path).unlink()
             print(f"🗑️  Removed old {file_path}")
     
-    print("🧠 Smart content analysis starting...")
-    notebook_tags = generate_auto_tags(ROOT_DIR)
+    print("🧠 Notebook analysis starting...")
+    print("✨ Supports both explicit tags (in metadata) and automatic detection!")
+    
+    notebook_tags = analyze_notebooks(ROOT_DIR)
     
     if notebook_tags:
         analyze_notebook_content(notebook_tags)
         
         print(f"\n📋 Tagged notebooks:")
         for path, meta in sorted(notebook_tags.items()):
-            print(f"  📓 {path}")
+            explicit_indicator = " 🏷️" if meta.get('has_explicit_tags') else " 🤖"
+            print(f"  📓 {path}{explicit_indicator}")
             print(f"     📂 {meta['folder']}")
             print(f"     🏷️  {', '.join(meta['tags'])}")
+            if meta.get('description'):
+                print(f"     📝 {meta['description'][:50]}...")
             if meta['imports']:
                 print(f"     📦 Imports: {', '.join(meta['imports'][:3])}")
             print()
@@ -378,11 +613,16 @@ if __name__ == '__main__':
         # Generate TOC entries
         generate_toc_entries(notebook_tags)
         
-        print("✅ Done! Gallery generation complete.")
+        # Show tagging examples
+        print_tag_examples()
+        
+        print("✅ Done! Enhanced gallery generation complete.")
         print(f"✅ Generated gallery files:")
         print(f"  - {ROOT_DIR}/gallery.md (main gallery)")
         print(f"  - {ROOT_DIR}/gallery-sentinel.md")
         print(f"  - {ROOT_DIR}/gallery-topics.md") 
         print(f"  - {ROOT_DIR}/gallery-tools.md")
+        
+        print(f"\n💡 Legend: 🏷️ = explicit tags, 🤖 = automatic detection")
     else:
         print("❌ No notebooks found with detectable content. Check your notebook directory.")
