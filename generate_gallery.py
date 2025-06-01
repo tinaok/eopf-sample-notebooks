@@ -11,37 +11,6 @@ from pathlib import Path
 from collections import Counter, defaultdict
 import nbformat
 
-def keywords_to_tags(keywords_str):
-    """Convert keywords string to relevant tags"""
-    tags = []
-    keywords_lower = keywords_str.lower()
-    
-    # Map keywords to our tag system
-    keyword_mappings = {
-        'sentinel': ['sentinel-1', 'sentinel-2', 'sentinel-3'],
-        'earth observation': ['earth-observation'],
-        'remote sensing': ['remote-sensing'],
-        'forest': ['land'],
-        'deforestation': ['land'],
-        'agriculture': ['land'],
-        'ocean': ['marine'],
-        'climate': ['climate-change'],
-        'emergency': ['emergency'],
-        'xarray': ['xarray'],
-        'eopf': ['xarray-eopf'],
-        'zarr': ['zarr'],
-        'gdal': ['gdal'],
-        'stac': ['stac'],
-        'pystac': ['stac'],
-        'processing': ['data-processing']
-    }
-    
-    for keyword, tag_list in keyword_mappings.items():
-        if keyword in keywords_lower:
-            tags.extend(tag_list)
-    
-    return list(set(tags))
-
 def extract_notebook_metadata_and_content(notebook_path):
     """Extract explicit tags and metadata from Jupyter notebook frontmatter only"""
     try:
@@ -99,12 +68,6 @@ def extract_notebook_metadata_and_content(notebook_path):
                                 elif isinstance(frontmatter['tags'], str):
                                     explicit_tags.extend([tag.strip() for tag in frontmatter['tags'].split(',')])
                             
-                            # Auto-generate tags from keywords if no explicit tags
-                            if not explicit_tags and explicit_keywords:
-                                # Convert keywords to potential tags
-                                keyword_tags = keywords_to_tags(explicit_keywords)
-                                explicit_tags.extend(keyword_tags)
-                    
                     except ImportError:
                         print("    ⚠️  PyYAML not available for frontmatter parsing")
                     except Exception as e:
@@ -150,37 +113,6 @@ def extract_notebook_metadata_and_content(notebook_path):
             'explicit_authors': [],
             'explicit_keywords': None
         }
-
-def keywords_to_tags(keywords_str):
-    """Convert keywords string to relevant tags"""
-    tags = []
-    keywords_lower = keywords_str.lower()
-    
-    # Map keywords to our tag system
-    keyword_mappings = {
-        'sentinel': ['sentinel-1', 'sentinel-2', 'sentinel-3'],
-        'earth observation': ['earth-observation'],
-        'remote sensing': ['remote-sensing'],
-        'forest': ['land'],
-        'deforestation': ['land'],
-        'agriculture': ['land'],
-        'ocean': ['marine'],
-        'climate': ['climate-change'],
-        'emergency': ['emergency'],
-        'xarray': ['xarray'],
-        'eopf': ['xarray-eopf'],
-        'zarr': ['zarr'],
-        'gdal': ['gdal'],
-        'stac': ['stac'],
-        'pystac': ['stac'],
-        'processing': ['data-processing']
-    }
-    
-    for keyword, tag_list in keyword_mappings.items():
-        if keyword in keywords_lower:
-            tags.extend(tag_list)
-    
-    return list(set(tags))
 
 def enhanced_tag_detection(notebook_data, filename):
     """Extract tags from frontmatter only"""
@@ -261,12 +193,6 @@ def render_tags_html(tags, has_explicit_tags=False, max_visible=3):
     if remaining_count > 0:
         tag_html += f'<span class="tag-more">+{remaining_count} more</span>'
     
-    # Add explicit/automatic indicator
-    if has_explicit_tags:
-        tag_html += '<span class="tag-indicator explicit" title="Explicit tags">🏷️</span>'
-    else:
-        tag_html += '<span class="tag-indicator automatic" title="Automatic tags">🤖</span>'
-    
     tag_html += '</div>'
     return tag_html
 
@@ -283,12 +209,6 @@ def render_simple_tags(tags, has_explicit_tags=False, max_visible=3):
     
     if remaining_count > 0:
         tag_text += f", +{remaining_count} more"
-    
-    # Add indicator for explicit vs automatic tags
-    if has_explicit_tags:
-        tag_text += " 🏷️"
-    else:
-        tag_text += " 🤖"
     
     return tag_text
 
