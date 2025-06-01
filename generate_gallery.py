@@ -11,6 +11,37 @@ from pathlib import Path
 from collections import Counter, defaultdict
 import nbformat
 
+def keywords_to_tags(keywords_str):
+    """Convert keywords string to relevant tags"""
+    tags = []
+    keywords_lower = keywords_str.lower()
+    
+    # Map keywords to our tag system
+    keyword_mappings = {
+        'sentinel': ['sentinel-1', 'sentinel-2', 'sentinel-3'],
+        'earth observation': ['earth-observation'],
+        'remote sensing': ['remote-sensing'],
+        'forest': ['land'],
+        'deforestation': ['land'],
+        'agriculture': ['land'],
+        'ocean': ['marine'],
+        'climate': ['climate-change'],
+        'emergency': ['emergency'],
+        'xarray': ['xarray'],
+        'eopf': ['xarray-eopf'],
+        'zarr': ['zarr'],
+        'gdal': ['gdal'],
+        'stac': ['stac'],
+        'pystac': ['stac'],
+        'processing': ['data-processing']
+    }
+    
+    for keyword, tag_list in keyword_mappings.items():
+        if keyword in keywords_lower:
+            tags.extend(tag_list)
+    
+    return list(set(tags))
+
 def extract_notebook_metadata_and_content(notebook_path):
     """Extract explicit tags and metadata from Jupyter notebook frontmatter only"""
     try:
@@ -150,55 +181,6 @@ def keywords_to_tags(keywords_str):
             tags.extend(tag_list)
     
     return list(set(tags))
-
-def smart_tag_detection(content, imports, filename):
-    """Intelligently detect tags based on content analysis"""
-    tags = set()
-    content_lower = content.lower()
-    
-    # Sentinel mission detection
-    if any(term in content_lower for term in ['sentinel-1', 'sentinel1', 's1']):
-        tags.add('sentinel-1')
-    if any(term in content_lower for term in ['sentinel-2', 'sentinel2', 's2']):
-        tags.add('sentinel-2')
-    if any(term in content_lower for term in ['sentinel-3', 'sentinel3', 's3']):
-        tags.add('sentinel-3')
-    
-    # Application topics
-    if any(term in content_lower for term in ['deforestation', 'forest', 'land cover', 'agriculture', 'vegetation', 'ndvi']):
-        tags.add('land')
-    if any(term in content_lower for term in ['flood', 'emergency', 'disaster', 'landslide', 'fire']):
-        tags.add('emergency')
-    if any(term in content_lower for term in ['climate', 'temperature', 'precipitation', 'weather']):
-        tags.add('climate-change')
-    if any(term in content_lower for term in ['ocean', 'sea', 'marine', 'water', 'coastal']):
-        tags.add('marine')
-    if any(term in content_lower for term in ['security', 'monitoring', 'surveillance']):
-        tags.add('security')
-    
-    # Tools and libraries
-    if any(term in content_lower for term in ['xarray', 'xr.']) or any('xarray' in imp for imp in imports):
-        tags.add('xarray')
-    if any(term in content_lower for term in ['xarray_eopf', 'xarray-eopf', 'eopf']) or any('xarray_eopf' in imp for imp in imports):
-        tags.add('xarray-eopf')
-    if any(term in content_lower for term in ['xcube']) or any('xcube' in imp for imp in imports):
-        tags.add('xcube')
-    if any(term in content_lower for term in ['gdal', 'osgeo']) or any('gdal' in imp or 'osgeo' in imp for imp in imports):
-        tags.add('gdal')
-    if any(term in content_lower for term in ['snap', 'snappy']):
-        tags.add('snap')
-    if any(term in content_lower for term in ['stac', 'pystac']) or any('stac' in imp or 'pystac' in imp for imp in imports):
-        tags.add('stac')
-    if any(term in content_lower for term in ['zarr']) or any('zarr' in imp for imp in imports):
-        tags.add('zarr')
-    
-    # Data processing types
-    if any(term in content_lower for term in ['l1c', 'level 1', 'raw data']):
-        tags.add('level-1')
-    if any(term in content_lower for term in ['l2a', 'level 2', 'surface reflectance']):
-        tags.add('level-2')
-    
-    return list(tags)
 
 def enhanced_tag_detection(notebook_data, filename):
     """Extract tags from frontmatter only"""
@@ -356,13 +338,6 @@ title: Notebook Gallery
 ---
 
 # Notebook Gallery
-
-Welcome to our comprehensive collection of Earth Observation Processing Framework (EOPF) sample notebooks. Browse by category to find notebooks that match your interests and use cases.
-
-```{gallery-categories}
-```
-
-## All Notebooks
 
 ```{gallery-grid}
 :category: all
@@ -582,313 +557,6 @@ def analyze_notebooks(root_dir='notebooks'):
         print("💡 Add YAML frontmatter with tags to include these notebooks")
     
     return notebook_tags
-
-def create_gallery_css(output_dir='notebooks'):
-    """Create the enhanced gallery CSS file"""
-    css_content = """/* Enhanced Gallery CSS with Stylish Tags */
-
-/* Main gallery grid styling */
-.gallery-grid .sd-card,
-.notebook-grid .sd-card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  border: 1px solid #e1e5e9;
-  border-radius: 12px;
-  overflow: hidden;
-  height: 100%;
-  background: #ffffff;
-}
-
-.gallery-grid .sd-card:hover,
-.notebook-grid .sd-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: #007bff;
-}
-
-/* Card headers */
-.sd-card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
-  font-weight: 600;
-  padding: 1rem;
-  border-radius: 12px 12px 0 0;
-}
-
-.sd-card-body {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Enhanced Tag Styling */
-.gallery-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: auto;
-  padding-top: 1rem;
-  align-items: center;
-}
-
-.gallery-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.375rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
-  background: #6c757d;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  white-space: nowrap;
-}
-
-.gallery-tag:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-decoration: none;
-  color: white;
-}
-
-/* Tag Categories with Color Coding */
-
-/* Sentinel Mission Tags */
-.gallery-tag.tag-sentinel-1 {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-sentinel-2 {
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-sentinel-3 {
-  background: linear-gradient(135deg, #45b7d1 0%, #2980b9 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Application Topic Tags */
-.gallery-tag.tag-land {
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-emergency {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-climate-change {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-marine {
-  background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-security {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Tool/Library Tags */
-.gallery-tag.tag-xarray {
-  background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-xarray-eopf {
-  background: linear-gradient(135deg, #e67e22 0%, #ca6f1e 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-xcube {
-  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-gdal {
-  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-snap {
-  background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-stac {
-  background: linear-gradient(135deg, #2c3e50 0%, #1b2631 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.gallery-tag.tag-zarr {
-  background: linear-gradient(135deg, #16a085 0%, #138d75 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Data Level Tags */
-.tag.level-1 {
-  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.tag.level-2 {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Special Tags */
-.tag.deforestation {
-  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.tag.earth-observation {
-  background: linear-gradient(135deg, #3498db 0%, #2874a6 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.tag.remote-sensing {
-  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Tag Icons */
-.tag::before {
-  content: "🏷️";
-  margin-right: 0.375rem;
-  font-size: 0.7rem;
-}
-
-.tag.sentinel-1::before { content: "🛰️"; }
-.tag.sentinel-2::before { content: "🛰️"; }
-.tag.sentinel-3::before { content: "🛰️"; }
-.tag.land::before { content: "🌱"; }
-.tag.emergency::before { content: "🚨"; }
-.tag.climate-change::before { content: "🌡️"; }
-.tag.marine::before { content: "🌊"; }
-.tag.security::before { content: "🔒"; }
-.tag.xarray::before { content: "📊"; }
-.tag.xarray-eopf::before { content: "🔌"; }
-.tag.gdal::before { content: "🗺️"; }
-.tag.stac::before { content: "📋"; }
-.tag.zarr::before { content: "📦"; }
-
-/* Tag counter indicator */
-.gallery-tag-more {
-  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 0.375rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-}
-
-/* Explicit vs Automatic tag indicators */
-.tag-indicator {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 0.5rem;
-  font-size: 1rem;
-  opacity: 0.7;
-}
-
-.tag-indicator.explicit {
-  color: #2ecc71;
-}
-
-.tag-indicator.automatic {
-  color: #f39c12;
-}
-
-/* Card description styling */
-.card-description {
-  color: #6c757d;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .gallery-grid,
-  .notebook-grid {
-    grid-template-columns: 1fr !important;
-  }
-  
-  .tag {
-    font-size: 0.7rem;
-    padding: 0.3rem 0.6rem;
-  }
-  
-  .sd-card-body {
-    padding: 1rem;
-  }
-}
-
-/* Category section styling */
-.category-section {
-  margin-bottom: 3rem;
-}
-
-.category-section h2 {
-  color: #2c3e50;
-  border-bottom: 3px solid #3498db;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
-
-/* Main gallery overview cards */
-.gallery-overview .sd-card {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: 2px solid #dee2e6;
-}
-
-.gallery-overview .sd-card:hover {
-  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
-  border-color: #007bff;
-}
-
-/* Loading animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.sd-card {
-  animation: fadeInUp 0.5s ease-out;
-}
-"""
-    
-    # Create static directory if it doesn't exist
-    static_dir = Path(output_dir) / 'static'
-    static_dir.mkdir(exist_ok=True)
-    
-    # Write CSS file
-    css_file = static_dir / 'gallery.css'
-    with open(css_file, 'w') as f:
-        f.write(css_content)
-    
-    print(f"✅ Created enhanced CSS: {css_file}")
 
 def export_metadata_for_plugin(notebook_tags, output_dir='notebooks'):
     """Export notebook metadata for MyST plugin"""
