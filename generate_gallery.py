@@ -385,13 +385,6 @@ title: Notebook Gallery
 
 # Notebook Gallery
 
-Welcome to our comprehensive collection of Earth Observation Processing Framework (EOPF) sample notebooks. Browse by category to find notebooks that match your interests and use cases.
-
-```{gallery-categories}
-```
-
-## All Notebooks
-
 ```{gallery-grid}
 :category: all
 :columns: 1 1 2 3
