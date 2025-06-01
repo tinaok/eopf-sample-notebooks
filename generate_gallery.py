@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 import nbformat
 
 def extract_notebook_metadata_and_content(notebook_path):
-    """Extract explicit tags and metadata from Jupyter notebook"""
+    """Extract explicit tags and metadata from Jupyter notebook frontmatter only"""
     try:
         with open(notebook_path, 'r', encoding='utf-8') as f:
             nb = nbformat.read(f, as_version=4)
@@ -26,24 +26,13 @@ def extract_notebook_metadata_and_content(notebook_path):
         explicit_authors = []
         explicit_keywords = None
         
-        # Check notebook-level metadata first
-        if 'tags' in nb.metadata:
-            explicit_tags.extend(nb.metadata['tags'])
-        
-        if 'gallery' in nb.metadata:
-            gallery_meta = nb.metadata['gallery']
-            explicit_title = gallery_meta.get('title')
-            explicit_description = gallery_meta.get('description')
-            if 'tags' in gallery_meta:
-                explicit_tags.extend(gallery_meta['tags'])
-        
-        # Process cells
+        # Process cells - only look for YAML frontmatter in first markdown cell
         for cell in nb.cells:
             if cell.cell_type == 'markdown':
                 source = cell.source
                 content.append(source)
                 
-                # Check for YAML frontmatter in first cell
+                # Check for YAML frontmatter in first markdown cell only
                 if source.strip().startswith('---'):
                     try:
                         import yaml
@@ -72,7 +61,7 @@ def extract_notebook_metadata_and_content(notebook_path):
                             if 'authors' in frontmatter:
                                 explicit_authors = frontmatter['authors']
                             
-                            # Look for tags in keywords or custom tags field
+                            # Look for tags in frontmatter
                             if 'tags' in frontmatter:
                                 if isinstance(frontmatter['tags'], list):
                                     explicit_tags.extend(frontmatter['tags'])
@@ -90,20 +79,8 @@ def extract_notebook_metadata_and_content(notebook_path):
                     except Exception as e:
                         print(f"    ⚠️  Error parsing frontmatter: {e}")
                 
-                # Look for gallery comments in markdown cells (backup method)
-                if 'tags' in cell.metadata and 'gallery-info' in cell.metadata['tags']:
-                    lines = source.split('\n')
-                    for line in lines:
-                        line = line.strip()
-                        if line.startswith('<!-- GALLERY_TAGS:'):
-                            tags_str = line.replace('<!-- GALLERY_TAGS:', '').replace('-->', '').strip()
-                            explicit_tags.extend([tag.strip() for tag in tags_str.split(',')])
-                        elif line.startswith('<!-- GALLERY_TITLE:'):
-                            if not explicit_title:  # Don't override frontmatter
-                                explicit_title = line.replace('<!-- GALLERY_TITLE:', '').replace('-->', '').strip()
-                        elif line.startswith('<!-- GALLERY_DESCRIPTION:'):
-                            if not explicit_description:  # Don't override frontmatter
-                                explicit_description = line.replace('<!-- GALLERY_DESCRIPTION:', '').replace('-->', '').strip()
+                # Break after first markdown cell (frontmatter should be first)
+                break
                 
             elif cell.cell_type == 'code':
                 source = cell.source
@@ -223,22 +200,17 @@ def smart_tag_detection(content, imports, filename):
     
     return list(tags)
 
-def enhanced_tag_detection(notebook_data, filename, enable_auto_tagging=True):
-    """Enhanced tag detection with explicit tag priority and optional auto-tagging"""
+def enhanced_tag_detection(notebook_data, filename):
+    """Extract tags from frontmatter only"""
     
-    # Start with explicit tags if they exist
+    # Only use frontmatter tags
     if notebook_data['explicit_tags']:
-        print(f"    ✅ Found explicit tags: {notebook_data['explicit_tags']}")
+        print(f"    ✅ Found frontmatter tags: {notebook_data['explicit_tags']}")
         return notebook_data['explicit_tags']
     
-    # Check if auto-tagging is enabled
-    if not enable_auto_tagging:
-        print(f"    ⚠️  No explicit tags found and auto-tagging disabled")
-        return []
-    
-    # Fall back to automatic detection
-    print(f"    🔍 No explicit tags found, using automatic detection...")
-    return smart_tag_detection(notebook_data['content'], notebook_data['imports'], filename)
+    # No fallback - frontmatter only
+    print(f"    ⚠️  No frontmatter tags found")
+    return []
 
 def find_all_notebooks(root_dir):
     """Find all notebooks in directory structure"""
@@ -278,9 +250,9 @@ def extract_notebook_title(notebook_path):
         return notebook_path.stem.replace('-', ' ').replace('_', ' ').title()
 
 def enhanced_title_extraction(notebook_path, notebook_data):
-    """Enhanced title extraction with explicit title priority"""
+    """Enhanced title extraction with frontmatter priority"""
     
-    # Use explicit title if available
+    # Use frontmatter title if available
     if notebook_data['explicit_title']:
         return notebook_data['explicit_title']
     
@@ -384,6 +356,13 @@ title: Notebook Gallery
 ---
 
 # Notebook Gallery
+
+Welcome to our comprehensive collection of Earth Observation Processing Framework (EOPF) sample notebooks. Browse by category to find notebooks that match your interests and use cases.
+
+```{gallery-categories}
+```
+
+## All Notebooks
 
 ```{gallery-grid}
 :category: all
@@ -535,31 +514,18 @@ title: {categories['tools']['title']}
 
 """)
 
-def analyze_notebook_content(notebook_tags, enable_auto_tagging=True):
+def analyze_notebook_content(notebook_tags):
     """Provide analysis of what was found"""
     tag_counts = Counter()
-    explicit_count = 0
-    automatic_count = 0
     
     for path, meta in notebook_tags.items():
         for tag in meta['tags']:
             tag_counts[tag] += 1
-        
-        if meta.get('has_explicit_tags'):
-            explicit_count += 1
-        else:
-            automatic_count += 1
     
     print("\n📊 Content Analysis Summary:")
     print("=" * 50)
     
-    print(f"\n📓 Total notebooks analyzed: {len(notebook_tags)}")
-    print(f"🏷️  Notebooks with explicit tags: {explicit_count}")
-    
-    if enable_auto_tagging:
-        print(f"🤖 Notebooks with automatic tags: {automatic_count}")
-    else:
-        print(f"⚠️  Auto-tagging disabled: {automatic_count} notebooks would have automatic tags")
+    print(f"\n📓 Total notebooks with frontmatter tags: {len(notebook_tags)}")
     
     print(f"\n🏷️  Most common tags:")
     for tag, count in tag_counts.most_common(10):
@@ -570,10 +536,9 @@ def analyze_notebook_content(notebook_tags, enable_auto_tagging=True):
     for folder, count in folder_counts.items():
         print(f"  {folder}: {count} notebooks")
 
-def analyze_notebooks(root_dir='notebooks', enable_auto_tagging=True):
-    """Analyze all notebooks and extract tags (explicit + automatic), titles, and metadata"""
-    auto_status = "enabled" if enable_auto_tagging else "disabled"
-    print(f"🔍 Analyzing notebooks in {root_dir} (auto-tagging {auto_status})...")
+def analyze_notebooks(root_dir='notebooks'):
+    """Analyze all notebooks and extract tags from frontmatter"""
+    print(f"🔍 Analyzing notebooks in {root_dir} for frontmatter tags...")
     
     notebook_files = find_all_notebooks(root_dir)
     
@@ -592,10 +557,10 @@ def analyze_notebooks(root_dir='notebooks', enable_auto_tagging=True):
         if relative_path.endswith('.ipynb'):
             relative_path = relative_path[:-6]  # Remove .ipynb extension
         
-        # Get tags (explicit first, then automatic if enabled)
-        tags = enhanced_tag_detection(notebook_data, file_path.name, enable_auto_tagging)
+        # Get tags from frontmatter only
+        tags = enhanced_tag_detection(notebook_data, file_path.name)
         
-        # Get title (explicit first, then automatic)
+        # Get title (frontmatter first, then automatic)
         title = enhanced_title_extraction(file_path, notebook_data)
         
         if tags:  # Only include if we found tags
@@ -609,13 +574,12 @@ def analyze_notebooks(root_dir='notebooks', enable_auto_tagging=True):
                 'has_explicit_tags': bool(notebook_data['explicit_tags'])
             }
         else:
-            print(f"    ❌ Skipped: No tags detected for {file_path.name}")
+            print(f"    ❌ Skipped: No frontmatter tags found for {file_path.name}")
             skipped_count += 1
     
     if skipped_count > 0:
-        print(f"\n⚠️  Skipped {skipped_count} notebooks without tags")
-        if not enable_auto_tagging:
-            print("💡 Tip: Enable auto-tagging with --auto-tag to include more notebooks")
+        print(f"\n⚠️  Skipped {skipped_count} notebooks without frontmatter tags")
+        print("💡 Add YAML frontmatter with tags to include these notebooks")
     
     return notebook_tags
 
@@ -967,12 +931,12 @@ def generate_toc_entries(notebook_tags):
     print("```")
 
 def print_tag_examples():
-    """Print examples of how to add explicit tags to notebooks"""
-    print("\n📝 How to add explicit tags to your notebooks:")
+    """Print examples of how to add frontmatter tags to notebooks"""
+    print("\n📝 How to add frontmatter tags to your notebooks:")
     print("=" * 60)
     
-    print("\n🟢 Method 1: YAML Frontmatter (Recommended)")
-    print("Add this to the first markdown cell:")
+    print("\n🟢 YAML Frontmatter (Recommended)")
+    print("Add this to the FIRST markdown cell of your notebook:")
     print("""
 ---
 title: Your Notebook Title
@@ -982,30 +946,16 @@ keywords: ["earth observation", "remote sensing", "forest monitoring"]
 authors:
   - name: Your Name
     orcid: 0000-0000-0000-0000
+    github: yourusername
+    affiliations:
+      - id: Your Institution
+        institution: Your Institution Name
+        ror: your-ror-id
 date: 2025-03-04
 ---
-""")
-    
-    print("\n🟡 Method 2: Notebook Metadata")
-    print("In JupyterLab, edit notebook metadata to include:")
-    print("""
-{
-  "metadata": {
-    "tags": ["sentinel-2", "land", "xarray"],
-    "gallery": {
-      "title": "Custom Gallery Title",
-      "description": "Custom description for gallery card"
-    }
-  }
-}
-""")
-    
-    print("\n🟠 Method 3: Markdown Cell Comments (Legacy)")
-    print("Add these comments to any markdown cell:")
-    print("""
-<!-- GALLERY_TAGS: sentinel-2, land, xarray -->
-<!-- GALLERY_TITLE: Custom Gallery Title -->
-<!-- GALLERY_DESCRIPTION: Custom description for gallery card -->
+
+# Your Notebook Content Starts Here
+...
 """)
     
     print("\n📝 Available tag categories:")
@@ -1013,20 +963,20 @@ date: 2025-03-04
     print("  Topics: land, emergency, climate-change, marine, security")
     print("  Tools: xarray, xarray-eopf, xcube, gdal, snap, stac, zarr")
     print("  Levels: level-1, level-2")
-    print("\n💡 Priority: Frontmatter > Notebook Metadata > Cell Comments > Auto-detection")
+    print("\n💡 Tags from frontmatter take priority over automatic detection")
+    print("💡 If no tags are found, keywords will be converted to tags automatically")
     print("\n🚫 To disable auto-tagging: python generate_gallery.py --no-auto-tag")
 
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description='Generate MyST gallery pages from Jupyter notebooks',
+        description='Generate MyST gallery pages from Jupyter notebooks with frontmatter tags',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python generate_gallery.py                    # Default: auto-tagging enabled
-  python generate_gallery.py --no-auto-tag     # Only explicit tags
-  python generate_gallery.py --auto-tag        # Explicit + automatic tags
+  python generate_gallery.py                    # Generate gallery from notebooks/
   python generate_gallery.py --dir my_notebooks # Custom directory
+  python generate_gallery.py --verbose          # Verbose output
         """
     )
     
@@ -1034,19 +984,6 @@ Examples:
         '--dir', '--directory',
         default='notebooks',
         help='Directory containing notebooks (default: notebooks)'
-    )
-    
-    tagging_group = parser.add_mutually_exclusive_group()
-    tagging_group.add_argument(
-        '--auto-tag',
-        action='store_true',
-        default=True,
-        help='Enable automatic tag detection (default)'
-    )
-    tagging_group.add_argument(
-        '--no-auto-tag',
-        action='store_true',
-        help='Disable automatic tagging, use only explicit tags'
     )
     
     parser.add_argument(
@@ -1062,7 +999,6 @@ if __name__ == '__main__':
     args = parse_arguments()
     
     ROOT_DIR = args.dir
-    enable_auto_tagging = not args.no_auto_tag
     
     # Clean up existing gallery files first
     gallery_files = [f'{ROOT_DIR}/gallery.md', f'{ROOT_DIR}/gallery-sentinel.md', 
@@ -1077,22 +1013,20 @@ if __name__ == '__main__':
     print("🧠 Notebook Gallery Generator")
     print("=" * 40)
     print(f"📁 Directory: {ROOT_DIR}")
-    print(f"🏷️  Auto-tagging: {'enabled' if enable_auto_tagging else 'disabled'}")
-    if not enable_auto_tagging:
-        print("⚠️  Only notebooks with explicit tags will be included")
+    print("🏷️  Only notebooks with YAML frontmatter tags will be included")
     print()
     
     print("🔍 Starting notebook analysis...")
-    notebook_tags = analyze_notebooks(ROOT_DIR, enable_auto_tagging)
+    notebook_tags = analyze_notebooks(ROOT_DIR)
     
     if notebook_tags:
-        analyze_notebook_content(notebook_tags, enable_auto_tagging)
+        analyze_notebook_content(notebook_tags)
         
         if args.verbose:
             print(f"\n📋 Tagged notebooks:")
             for path, meta in sorted(notebook_tags.items()):
-                explicit_indicator = " 🏷️" if meta.get('has_explicit_tags') else " 🤖"
-                print(f"  📓 {path}{explicit_indicator}")
+                frontmatter_indicator = " 🏷️" if meta.get('has_explicit_tags') else " 🤖"
+                print(f"  📓 {path}{frontmatter_indicator}")
                 print(f"     📂 {meta['folder']}")
                 print(f"     🏷️  {', '.join(meta['tags'])}")
                 if meta.get('description'):
@@ -1112,8 +1046,8 @@ if __name__ == '__main__':
         # Generate TOC entries
         generate_toc_entries(notebook_tags)
         
-        # Show tagging examples
-        if not notebook_tags or not enable_auto_tagging:
+        # Show tagging examples if few notebooks found
+        if len(notebook_tags) < 3:
             print_tag_examples()
         
         print("\n✅ Gallery generation complete!")
@@ -1123,14 +1057,11 @@ if __name__ == '__main__':
         print(f"  - {ROOT_DIR}/gallery-topics.md") 
         print(f"  - {ROOT_DIR}/gallery-tools.md")
         
-        if enable_auto_tagging:
-            print(f"\n💡 Legend: 🏷️ = explicit tags, 🤖 = automatic detection")
-        else:
-            print(f"\n💡 All notebooks use explicit tags only")
+        print(f"\n💡 All notebooks use YAML frontmatter tags")
     else:
         print("❌ No notebooks found with tags.")
         if not enable_auto_tagging:
-            print("💡 Try enabling auto-tagging with: python generate_gallery.py --auto-tag")
+            print("💡 Try removing --no-auto-tag to enable automatic tag detection")
         else:
-            print("💡 Check your notebook directory or add explicit tags to notebooks")
+            print("💡 Add frontmatter tags to your notebooks or check your notebook directory")
         print_tag_examples()
