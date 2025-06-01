@@ -46,6 +46,8 @@ jobs:
           condarc: |
             channels:
               - conda-forge
+      - name: Generate gallery
+        run: python generate_gallery.py --no-auto-tag
       - name: Execute Jupyter Notebooks and Build HTML Assets
         run: myst build --html --execute
         working-directory: notebooks

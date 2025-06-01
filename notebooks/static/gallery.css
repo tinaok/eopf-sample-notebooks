@@ -1,0 +1,292 @@
+/* Enhanced Gallery CSS with Stylish Tags */
+
+/* Main gallery grid styling */
+.gallery-grid .sd-card,
+.notebook-grid .sd-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  background: #ffffff;
+}
+
+.gallery-grid .sd-card:hover,
+.notebook-grid .sd-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #007bff;
+}
+
+/* Card headers */
+.sd-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white !important;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.sd-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Enhanced Tag Styling */
+.gallery-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.gallery-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  background: #6c757d;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.gallery-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: white;
+}
+
+/* Tag Categories with Color Coding */
+
+/* Sentinel Mission Tags */
+.gallery-tag.tag-sentinel-1 {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-sentinel-2 {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-sentinel-3 {
+  background: linear-gradient(135deg, #45b7d1 0%, #2980b9 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Application Topic Tags */
+.gallery-tag.tag-land {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-emergency {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-climate-change {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-marine {
+  background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-security {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Tool/Library Tags */
+.gallery-tag.tag-xarray {
+  background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-xarray-eopf {
+  background: linear-gradient(135deg, #e67e22 0%, #ca6f1e 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-xcube {
+  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-gdal {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-snap {
+  background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-stac {
+  background: linear-gradient(135deg, #2c3e50 0%, #1b2631 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-zarr {
+  background: linear-gradient(135deg, #16a085 0%, #138d75 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Data Level Tags */
+.tag.level-1 {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tag.level-2 {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Special Tags */
+.tag.deforestation {
+  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tag.earth-observation {
+  background: linear-gradient(135deg, #3498db 0%, #2874a6 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.tag.remote-sensing {
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Tag Icons */
+.tag::before {
+  content: "🏷️";
+  margin-right: 0.375rem;
+  font-size: 0.7rem;
+}
+
+.tag.sentinel-1::before { content: "🛰️"; }
+.tag.sentinel-2::before { content: "🛰️"; }
+.tag.sentinel-3::before { content: "🛰️"; }
+.tag.land::before { content: "🌱"; }
+.tag.emergency::before { content: "🚨"; }
+.tag.climate-change::before { content: "🌡️"; }
+.tag.marine::before { content: "🌊"; }
+.tag.security::before { content: "🔒"; }
+.tag.xarray::before { content: "📊"; }
+.tag.xarray-eopf::before { content: "🔌"; }
+.tag.gdal::before { content: "🗺️"; }
+.tag.stac::before { content: "📋"; }
+.tag.zarr::before { content: "📦"; }
+
+/* Tag counter indicator */
+.gallery-tag-more {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Explicit vs Automatic tag indicators */
+.tag-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.tag-indicator.explicit {
+  color: #2ecc71;
+}
+
+.tag-indicator.automatic {
+  color: #f39c12;
+}
+
+/* Card description styling */
+.card-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gallery-grid,
+  .notebook-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .sd-card-body {
+    padding: 1rem;
+  }
+}
+
+/* Category section styling */
+.category-section {
+  margin-bottom: 3rem;
+}
+
+.category-section h2 {
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* Main gallery overview cards */
+.gallery-overview .sd-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #dee2e6;
+}
+
+.gallery-overview .sd-card:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-color: #007bff;
+}
+
+/* Loading animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sd-card {
+  animation: fadeInUp 0.5s ease-out;
+}

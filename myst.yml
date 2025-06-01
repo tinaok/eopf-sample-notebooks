@@ -5,6 +5,8 @@ extends:
 project:
   title: Welcome
   description: Jupyter notebooks showcasing the usage of EOPF Sample Zarr Service
+  plugins:
+    - gallery-page.mjs
   authors:
     - name: European Space Agency
       affiliations:
@@ -50,6 +52,7 @@ site:
   options:
     logo: https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/main/notebooks/static/ESA_EOPF_logo_2025_COLOR_ESA_blue_reduced.png
     logo_text: EOPF Sample Service
+    style: ./notebooks/static/gallery.css
   actions:
     - title: Learn More
       url: https://eopf.copernicus.eu
