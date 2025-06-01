@@ -219,31 +219,16 @@ def generate_gallery_pages(notebook_tags, output_dir='notebooks'):
         'sentinel': {
             'title': 'Sentinel Data',
             'description': 'Notebooks showcasing Sentinel mission data processing and analysis',
-            'tags': ['sentinel-1', 'sentinel-2', 'sentinel-3'],
             'file': f'{output_dir}/gallery-sentinel.md'
         },
         'topics': {
             'title': 'Application Topics',
             'description': 'Notebooks organized by Earth observation application domains',
-            'subcategories': {
-                'Land Applications': ['land'],
-                'Emergency Response': ['emergency'], 
-                'Climate Monitoring': ['climate-change'],
-                'Marine Applications': ['marine'],
-                'Security Applications': ['security']
-            },
             'file': f'{output_dir}/gallery-topics.md'
         },
         'tools': {
             'title': 'Tools & Libraries',
             'description': 'Notebooks demonstrating different software tools and libraries',
-            'subcategories': {
-                'XArray': ['xarray'],
-                'XCube': ['xcube'], 
-                'GDAL': ['gdal'],
-                'SNAP': ['snap'],
-                'Zarr': ['zarr']
-            },
             'file': f'{output_dir}/gallery-tools.md'
         }
     }
@@ -499,16 +484,7 @@ def export_metadata_for_plugin(notebook_tags, output_dir='notebooks'):
     print(f"✅ Exported metadata: {metadata_file}")
 
 def generate_toc_entries(notebook_tags):
-    """Generate MyST TOC entries for all notebooks"""
-    print("\n📋 MyST TOC entries for myst.yml:")
-    print("Add these to your 'toc:' section:")
-    print("\n```yaml")
-    
-    for notebook_path in sorted(notebook_tags.keys()):
-        print(f"        - file: notebooks/{notebook_path}")
-    
-    print("```")
-    """Generate MyST TOC entries for all notebooks"""
+    """Generate MyST TOC entries for all notebooks - SINGLE FUNCTION ONLY"""
     print("\n📋 MyST TOC entries for myst.yml:")
     print("Add these to your 'toc:' section:")
     print("\n```yaml")
@@ -631,7 +607,7 @@ if __name__ == '__main__':
         print("📄 Exporting metadata for MyST plugin...")
         export_metadata_for_plugin(notebook_tags, ROOT_DIR)
         
-        # Generate TOC entries
+        # Generate TOC entries - CALLED ONLY ONCE HERE
         generate_toc_entries(notebook_tags)
         
         # Show tagging examples if few notebooks found
@@ -648,8 +624,5 @@ if __name__ == '__main__':
         print(f"\n💡 All notebooks use YAML frontmatter tags")
     else:
         print("❌ No notebooks found with tags.")
-        if not enable_auto_tagging:
-            print("💡 Try removing --no-auto-tag to enable automatic tag detection")
-        else:
-            print("💡 Add frontmatter tags to your notebooks or check your notebook directory")
+        print("💡 Add frontmatter tags to your notebooks or check your notebook directory")
         print_tag_examples()

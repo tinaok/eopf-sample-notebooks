@@ -74,106 +74,106 @@
 
 /* Sentinel Mission Tags */
 .gallery-tag.tag-sentinel-1 {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  background: #4b2500;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-sentinel-2 {
-  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  background: #e8267b;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-sentinel-3 {
-  background: linear-gradient(135deg, #45b7d1 0%, #2980b9 100%);
+  background: #2b6cb0;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Application Topic Tags */
 .gallery-tag.tag-land {
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  background: #015625;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-emergency {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  background: #da1703;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-climate-change {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: #ff0a0a;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-marine {
-  background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+  background: #041a78;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-security {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  background: #f37726;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Tool/Library Tags */
 .gallery-tag.tag-xarray {
-  background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+  background: #4bcfde;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-xarray-eopf {
-  background: linear-gradient(135deg, #e67e22 0%, #ca6f1e 100%);
+  background: #00c7ff;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-xcube {
-  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+  background: #8fd016;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-gdal {
-  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  background: #003a40;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-snap {
-  background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+  background: #d012f1;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-stac {
-  background: linear-gradient(135deg, #2c3e50 0%, #1b2631 100%);
+  background: #285d72;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-zarr {
-  background: linear-gradient(135deg, #16a085 0%, #138d75 100%);
+  background: #16a085;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Data Level Tags */
 .gallery-tag.tag-level-1 {
-  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  background: #95a5a6;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-level-2 {
-  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  background: #34495e);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Special Tags */
 .gallery-tag.tag-deforestation {
-  background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+  background: #c0392b;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-earth-observation {
-  background: linear-gradient(135deg, #3498db 0%, #2874a6 100%);
+  background: #3498db;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
 .gallery-tag.tag-remote-sensing {
-  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  background: #9b59b6;
   border-color: rgba(255, 255, 255, 0.3);
 }
 
