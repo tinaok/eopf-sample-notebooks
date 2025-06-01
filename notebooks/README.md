@@ -1,4 +1,4 @@
-# 👋 Welcome to EOPF Sample Service Notebooks  
+# 👋 Welcome to EOPF Sample Service Notebooks
 
 ## How to run the notebooks
 
@@ -77,4 +77,3 @@ eopf-sample-notebooks/notebooks
 Open the notebook you prefer and start experimenting!
 
 ---
-

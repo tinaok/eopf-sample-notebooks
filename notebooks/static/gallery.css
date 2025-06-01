@@ -4,7 +4,9 @@
 /* Main gallery grid styling */
 .gallery-grid .sd-card,
 .notebook-grid .sd-card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
   border: 1px solid #e1e5e9;
   border-radius: 12px;
   overflow: hidden;
@@ -182,12 +184,12 @@
   .notebook-grid {
     grid-template-columns: 1fr !important;
   }
-  
+
   .gallery-tag {
     font-size: 0.7rem;
     padding: 0.3rem 0.6rem;
   }
-  
+
   .sd-card-body {
     padding: 1rem;
   }
