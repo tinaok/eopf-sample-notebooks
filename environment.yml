@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - xarray=2024.11.0
+  - xarray
   - xarray-eopf
   - folium
   - graphviz
@@ -19,6 +19,9 @@ dependencies:
   - jupyterlab-myst
   - python-graphviz
   - pystac-client
+  - zarr
+  - tqdm
+  - geopandas
+  - dask
+  - rioxarray
   - pip
-  - pip:
-      - eopf==2.5.5
