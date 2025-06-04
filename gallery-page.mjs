@@ -71,6 +71,9 @@ const plugin = {
             const hasExplicitTags =
               meta && meta.has_explicit_tags ? meta.has_explicit_tags : false;
 
+            // Create the notebook URL (add .ipynb extension and notebooks/ prefix)
+            const notebookUrl = `${path}.ipynb`;
+
             const children = [];
 
             // Add description if available
@@ -101,7 +104,13 @@ const plugin = {
               children: [
                 {
                   type: "cardTitle",
-                  children: [{ type: "text", value: title }],
+                  children: [
+                    {
+                      type: "link",
+                      url: notebookUrl,
+                      children: [{ type: "text", value: title }],
+                    },
+                  ],
                 },
                 ...children,
               ],
@@ -174,7 +183,13 @@ const plugin = {
             children: [
               {
                 type: "cardTitle",
-                children: [{ type: "text", value: cat.title }],
+                children: [
+                  {
+                    type: "link",
+                    url: cat.link,
+                    children: [{ type: "text", value: cat.title }],
+                  },
+                ],
               },
               {
                 type: "paragraph",
@@ -265,7 +280,6 @@ function renderTags(tags, hasExplicitTags = false) {
         ? ` <span class="gallery-tag-more">+${remainingCount} more</span>`
         : "";
 
-    // Remove only the indicator, keep everything else
     return `<div class="gallery-tags">${tagElements}${moreElement}</div>`;
   } catch (error) {
     console.error("Error rendering tags:", error);

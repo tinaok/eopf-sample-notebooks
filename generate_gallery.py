@@ -139,13 +139,30 @@ def enhanced_tag_detection(notebook_data, filename):
 
 
 def find_all_notebooks(root_dir):
-    """Find all notebooks in directory structure"""
+    """Find all notebooks in directory structure, excluding templates"""
     notebook_files = []
     root_path = Path(root_dir)
 
+    # Files to exclude from gallery
+    exclude_patterns = [
+        "*template*",  # Any file with "template" in the name
+        "template.ipynb",  # Specific file
+    ]
+
     for notebook_file in root_path.rglob("*.ipynb"):
         # Skip hidden files and checkpoint files
-        if not any(part.startswith(".") for part in notebook_file.parts):
+        if any(part.startswith(".") for part in notebook_file.parts):
+            continue
+
+        # Skip template files
+        should_exclude = False
+        for pattern in exclude_patterns:
+            if notebook_file.match(pattern):
+                print(f"    🚫 Excluding template: {notebook_file.name}")
+                should_exclude = True
+                break
+
+        if not should_exclude:
             notebook_files.append(notebook_file)
 
     return notebook_files
