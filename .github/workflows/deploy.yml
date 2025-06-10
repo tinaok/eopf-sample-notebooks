@@ -6,7 +6,6 @@ on:
   push:
     # Runs on pushes targeting the default branch
     branches: [main]
-    paths: ["notebooks/**"]
 env:
   # `BASE_URL` determines the website is served from, including CSS & JS assets
   # You may need to change this to `BASE_URL: ''`
@@ -46,13 +45,14 @@ jobs:
           condarc: |
             channels:
               - conda-forge
+      - name: Generate gallery
+        run: python generate_gallery.py
       - name: Execute Jupyter Notebooks and Build HTML Assets
         run: myst build --html --execute
-        working-directory: notebooks
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./notebooks/_build/html"
+          path: "./_build/html"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

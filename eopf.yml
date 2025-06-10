@@ -3,7 +3,7 @@ project:
   open_access: true
   license:
     content: CC-BY-4.0
-    code: MIT
+    code: Apache-2.0
 site:
   template: book-theme
   options:

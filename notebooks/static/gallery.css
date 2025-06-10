@@ -1,0 +1,241 @@
+/* EOPF Gallery CSS - Static Version */
+/* Edit this file directly to customize colors and styling */
+
+/* Main gallery grid styling */
+.gallery-grid .sd-card,
+.notebook-grid .sd-card {
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  background: #ffffff;
+}
+
+.gallery-grid .sd-card:hover,
+.notebook-grid .sd-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #007bff;
+}
+
+/* Card headers */
+.sd-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white !important;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.sd-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Enhanced Tag Styling */
+.gallery-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.gallery-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  background: #6c757d;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.gallery-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: white;
+}
+
+/* ========================================
+   TAG COLORS - Customize these as needed!
+   ======================================== */
+
+/* Sentinel Mission Tags */
+.gallery-tag.tag-sentinel-1 {
+  background: #4b2500;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-sentinel-2 {
+  background: #e8267b;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-sentinel-3 {
+  background: #2b6cb0;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Application Topic Tags */
+.gallery-tag.tag-land {
+  background: #015625;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-emergency {
+  background: #da1703;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-climate-change {
+  background: #ff0a0a;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-marine {
+  background: #041a78;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-security {
+  background: #f37726;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Tool/Library Tags */
+.gallery-tag.tag-xarray {
+  background: #4bcfde;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-xarray-eopf {
+  background: #00c7ff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-xcube {
+  background: #8fd016;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-gdal {
+  background: #003a40;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-snap {
+  background: #d012f1;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-stac {
+  background: #285d72;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.gallery-tag.tag-zarr {
+  background: #16a085;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   END TAG COLORS
+   ======================================== */
+
+/* Tag counter indicator */
+.gallery-tag-more {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Card description styling */
+.card-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gallery-grid,
+  .notebook-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gallery-tag {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .sd-card-body {
+    padding: 1rem;
+  }
+}
+
+/* Category section styling */
+.category-section h2 {
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* Main gallery overview cards */
+.gallery-overview .sd-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #dee2e6;
+}
+
+.gallery-overview .sd-card:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-color: #007bff;
+}
+
+/* Loading animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sd-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Print styles */
+@media print {
+  .gallery-tag {
+    background: #f8f9fa !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+  }
+}
