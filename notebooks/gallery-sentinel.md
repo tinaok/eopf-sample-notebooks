@@ -26,4 +26,3 @@ Notebooks showcasing Sentinel mission data processing and analysis
 :category: sentinel-3
 :columns: 1 1 2 3
 ```
-

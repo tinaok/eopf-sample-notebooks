@@ -1,59 +1,52 @@
 {
-  "Sentinel-2/deforestation_monitoring_zarr": {
-    "title": "Deforestation Monitoring using Sentinel 2 and xarray",
-    "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
-    "tags": ["sentinel-2", "land", "xarray"],
+  "Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration": {
+    "title": "Sentinel-1 GRD Zarr Product Exploration",
+    "description": "Explore how to open, inspect the metadata and visualise Sentinel-1 GRD Zarr format",
+    "tags": ["sentinel-1", "xarray"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-1"
+  },
+  "Sentinel-1/Sentinel-1_L2_OCN_Zarr_product_exploration": {
+    "title": "Sentinel-1 L2 OCN Zarr Product Exploration",
+    "description": "Explore how to open, visualise and use Sentinel-1 OCN products in EOPF Zarr format",
+    "tags": ["sentinel-1", "marine", "xarray"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-1"
+  },
+  "Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A": {
+    "title": "Zarr vs SAFE Metadata",
+    "description": "Learn how to extract Metadata from EOPF Zarr, in comparison with SAFE (Standard Archive Format for Europe) using GDAL & Xarray (Sentinel-2 L2A)",
+    "tags": ["gdal", "sentinel-2", "xarray"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
-  "Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration": {
-    "title": "Sentinel-2 L1C MSI Zarr Product Exploration",
-    "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
-    "tags": ["sentinel-2", "land", "xarray"],
+  "Sentinel-2/deforestation_monitoring_zarr": {
+    "title": "Deforestation Monitoring using Sentinel 2 and xarray",
+    "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
+    "tags": ["land", "sentinel-2", "xarray"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
   "Sentinel-2/NDVI_based_landslide_mapping": {
     "title": "NDVI-based approach to study Landslide areas",
     "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
-    "tags": ["sentinel-2", "land", "xarray"],
+    "tags": ["land", "sentinel-2", "xarray"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
-  "Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A": {
-    "title": "Zarr vs SAFE Metadata",
-    "description": "Learn how to extract Metadata from EOPF Zarr, in comparison with SAFE (Standard Archive Format for Europe) using GDAL & Xarray (Sentinel-2 L2A)",
-    "tags": ["sentinel-2", "xarray", "gdal"],
+  "Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration": {
+    "title": "Sentinel-2 L1C MSI Zarr Product Exploration",
+    "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
+    "tags": ["land", "sentinel-2", "xarray"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
   "Sentinel-2/GDAL_explore_Zarr": {
     "title": "Explore EOPF Zarr Sentinel-2 files using GDAL",
     "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
-    "tags": ["sentinel-2", "land", "gdal"],
+    "tags": ["gdal", "sentinel-2", "land"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
-  },
-  "EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype": {
-    "title": "Sentinel-3 Patchwork L1 OLCI EFR L2 SLSTR FPR SYN AOD product format prototype",
-    "description": "Sentinel-3 L1 OLCI EFR, Sentinel-3 L2 SLSTR FPR, Sentinel-3 SYN AOD product",
-    "tags": ["sentinel-3", "xarray"],
-    "has_explicit_tags": true,
-    "folder": "EOPF_Tutorials"
-  },
-  "EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype": {
-    "title": "Sentinel-1 L1 NRB product format prototype",
-    "description": "Example of usage of Sentinel-1 L1 NRB product",
-    "tags": ["xarray", "sentinel-1"],
-    "has_explicit_tags": true,
-    "folder": "EOPF_Tutorials"
-  },
-  "EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype": {
-    "title": "SENTINEL-1 L1 SLC TOPSAR Product Format Prototype",
-    "description": "Example of slc TOPSAR product and some easy usage examples",
-    "tags": ["xarray", "sentinel-1"],
-    "has_explicit_tags": true,
-    "folder": "EOPF_Tutorials"
   },
   "xarray_compatibility/xarray_compatibility": {
     "title": "EOPF Xarray compatibility",
@@ -62,25 +55,25 @@
     "has_explicit_tags": true,
     "folder": "xarray_compatibility"
   },
-  "Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration": {
-    "title": "Sentinel-1 GRD Zarr Product Exploration",
-    "description": "Explore how to open, inspect the metadata and visualise Sentinel-1 GRD Zarr format",
-    "tags": ["xarray", "sentinel-1"],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-1"
-  },
-  "Sentinel-1/Sentinel-1_L2_OCN_Zarr_product_exploration": {
-    "title": "Sentinel-1 L2 OCN Zarr Product Exploration",
-    "description": "Explore how to open, visualise and use Sentinel-1 OCN products in EOPF Zarr format",
-    "tags": ["marine", "xarray", "sentinel-1"],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-1"
-  },
   "xarray_eopf_plugin/introduction_xarray_eopf_plugin": {
     "title": "Introduction to xarray-eopf backend.",
     "description": "A userfriendly way to open the new EOPF Zarr products with Xarray.",
-    "tags": ["xarray-eopf", "sentinel-2", "xarray", "stac", "sentinel-1"],
+    "tags": ["stac", "xarray-eopf", "sentinel-1", "sentinel-2", "xarray"],
     "has_explicit_tags": true,
     "folder": "xarray_eopf_plugin"
+  },
+  "EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype": {
+    "title": "Sentinel-3 Patchwork L1 OLCI EFR L2 SLSTR FPR SYN AOD product format prototype",
+    "description": "Sentinel-3 L1 OLCI EFR, Sentinel-3 L2 SLSTR FPR, Sentinel-3 SYN AOD product",
+    "tags": ["sentinel-3", "xarray"],
+    "has_explicit_tags": true,
+    "folder": "EOPF_Tutorials"
+  },
+  "EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype": {
+    "title": "SENTINEL-1 L1 SLC TOPSAR Product Format Prototype",
+    "description": "Example of slc TOPSAR product and some easy usage examples",
+    "tags": ["sentinel-1", "xarray"],
+    "has_explicit_tags": true,
+    "folder": "EOPF_Tutorials"
   }
 }

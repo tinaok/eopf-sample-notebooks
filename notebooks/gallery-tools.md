@@ -54,4 +54,3 @@ Notebooks demonstrating different software tools and libraries
 :category: zarr
 :columns: 1 1 2 3
 ```
-

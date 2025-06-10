@@ -40,4 +40,3 @@ Notebooks organized by Earth observation application domains
 :category: security
 :columns: 1 1 2 3
 ```
-
