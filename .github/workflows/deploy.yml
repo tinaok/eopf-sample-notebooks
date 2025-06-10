@@ -46,7 +46,7 @@ jobs:
             channels:
               - conda-forge
       - name: Generate gallery
-        run: python generate_gallery.py
+        run: micromamba run -n eopf-zarr python generate_gallery.py
       - name: Execute Jupyter Notebooks and Build HTML Assets
         run: myst build --html --execute
       - name: Upload artifact
