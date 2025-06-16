@@ -242,7 +242,7 @@ def apply_segmentation_parallel(ndvi: xr.DataArray) -> xr.DataArray:
 def apply_filter(cube: DataArray, context: Dict) -> DataArray:
     inspect(message=f"Dimensions of the final datacube {cube.dims}")
     # get the underlying array without the bands and t dimension
-    image_data = cube.squeeze("time", drop=True).squeeze("bands", drop=True).values
+    image_data = cube.squeeze("time", drop=True).values
     # compute edges
     edges = sobel(image_data)
     # Perform felzenszwalb segmentation
