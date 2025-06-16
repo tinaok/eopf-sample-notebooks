@@ -25,4 +25,8 @@ dependencies:
   - dask
   - rioxarray
   - nbformat
+  - ipykernel
+  - scikit-image
+  - s3fs
+  - onnxruntime
   - pip
