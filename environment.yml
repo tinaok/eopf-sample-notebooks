@@ -20,10 +20,15 @@ dependencies:
   - jupyterlab-myst
   - python-graphviz
   - pystac-client
-  - zarr
+  - zarr<3
   - tqdm
   - geopandas
   - dask
   - rioxarray
   - nbformat
+  - ipykernel
+  - scikit-image
+  - s3fs
+  - onnxruntime
+  - netcdf4
   - pip
