@@ -1,0 +1,60 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+extends:
+  - https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/refs/heads/main/eopf.yml
+project:
+  title: Welcome
+  description: Jupyter notebooks showcasing the usage of EOPF Sample Zarr Service
+  plugins:
+    - gallery-page.mjs
+  authors:
+    - name: European Space Agency
+      affiliations:
+        - id: ESA
+          institution: ESA
+          ror: https://ror.org/03wd9za21
+  github: https://github.com/EOPF-Sample-Service/eopf-sample-notebooks
+  jupyter:
+    binder:
+      repo: EOPF-Sample-Service/eopf-sample-notebooks
+      url: https://binderhub.user.eopf.eodc.eu
+  banner: notebooks/static/ESA_footer_banner_transparent.png
+  thumbnail: notebooks/static/ESA_EOPF_logo_2025_COLOR_ESA_blue_reduced.png
+  open_access: true
+  license:
+    content: CC-BY-4.0
+    code: Apache-2.0
+  copyright: "2025"
+  toc:
+    # Main navigation
+    - file: notebooks/README.md
+    - file: notebooks/gallery.md
+      hidden: true
+      children:
+        - file: notebooks/Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A.ipynb
+        - file: notebooks/Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration.ipynb
+        - file: notebooks/Sentinel-2/GDAL_explore_Zarr.ipynb
+        - file: notebooks/Sentinel-2/deforestation_monitoring_zarr.ipynb
+        - file: notebooks/Sentinel-2/NDVI_based_landslide_mapping.ipynb
+        - file: notebooks/xarray_eopf_plugin/introduction_xarray_eopf_plugin.ipynb
+        - file: notebooks/Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration.ipynb
+        - file: notebooks/Sentinel-1/Sentinel-1_L2_OCN_Zarr_product_exploration.ipynb
+        - file: notebooks/EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
+        - file: notebooks/EOPF_Tutorials/Sentinel-1_L1_NRB_product_format_prototype.ipynb
+        - file: notebooks/EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype.ipynb
+    # Gallery categories (visible in navigation)
+    - file: notebooks/gallery-sentinel.md
+    - file: notebooks/gallery-topics.md
+    - file: notebooks/gallery-tools.md
+  subject: earth and related environmental sciences
+
+site:
+  template: book-theme
+  options:
+    logo: https://raw.githubusercontent.com/EOPF-Sample-Service/eopf-sample-notebooks/main/notebooks/static/ESA_EOPF_logo_2025_COLOR_ESA_blue_reduced.png
+    logo_text: EOPF Sample Service
+    style: ./notebooks/static/gallery.css
+  actions:
+    - title: Learn More
+      url: https://eopf.copernicus.eu
+  domains: []

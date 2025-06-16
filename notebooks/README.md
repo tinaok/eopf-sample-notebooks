@@ -1,9 +1,79 @@
 # 👋 Welcome to EOPF Sample Service Notebooks
 
-The Sentinels EOPF Sample Service project is composed of several components, each implemented and maintained by experts from the tendering consortium. The core component, the EOPF Core Platform, is responsible for delivering EOPF Zarr data products to users. Key features include re-formatting ingested SAFE data into EOPF Zarr data products and providing data access via STAC API and S3 API.
+## How to run the notebooks
 
-Additional user services are provided through the EOPF User Platform, which hosts applications like JupyterHub, Dask, and a STAC Browser. These technologies support user adoption of the new EOPF Zarr data products by lowering the barrier to cloud applications and data discovery.
+The notebooks can be run on the **EOPF Sample Service JupyterHub**.
 
-The development of Jupyter Notebooks and OSS libraries and plug-ins is crucial for user adoption. Experts from various consortium members will develop these tools to demonstrate the advantages of the new EOPF Zarr data format. The project also involves creating OSS libraries and plug-ins for major programming languages to integrate the new data format with traditional and cloud-native software.
+👉 Connect via: [https://jupyterhub.user.eopf.eodc.eu/hub](https://jupyterhub.user.eopf.eodc.eu/hub)
 
-The notebooks will be deployed with GitHub pages, executing them automatically and providing a rendered version.
+![Screenshot: JupyterHub Login Page](static/Hub_login.png)
+
+---
+
+Click **Sign in with CDSE IdP** to proceed.
+
+You will be redirected to the CDSE login page:
+
+![Screenshot: CDSE Login Page](static/CDSE_login.png)
+
+---
+
+Please log in using your **CDSE user account**.  
+If you do not have one, create one now, it's free!
+
+Once logged in, you will see the following interface:
+
+![Screenshot: Start Server](static/Start_hub.png)
+
+---
+
+Click **Start My Server** to launch your Jupyter session.
+
+---
+
+## Starting Your Environment
+
+After starting your server, you will be directed to the JupyterHub Launcher.
+
+![Screenshot: Environment Selection](static/Choose_env.png)
+
+---
+
+Leave the selection on `Default Image` and start you server!
+
+---
+
+## Cloning the Webinar Repository
+
+Once your environment is running, open the **workspace** folder.
+**Remember: only the files stored in this folder will remain after closing JupyterHub!**
+
+![Screenshot: Workspace](static/workspace_click.jpg)
+
+---
+
+Open now a Terminal:
+
+![Screenshot: Terminal](static/terminal_click.jpg)
+
+---
+
+Finally paste the following command and hit _Enter_ on the keyboard to get the notebooks into your workspace:
+
+```
+git clone https://github.com/EOPF-Sample-Service/eopf-sample-notebooks.git
+```
+
+---
+
+## Launching the Notebooks
+
+On the left panel, navigate to the following directory:
+
+```
+eopf-sample-notebooks/notebooks
+```
+
+Open the notebook you prefer and start experimenting!
+
+---
