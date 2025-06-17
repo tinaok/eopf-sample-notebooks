@@ -1,3 +1,6 @@
 .ipynb_checkpoints
 */_build/*
 venv
+.venv/
+__pycache__/
+notebooks/CDSE/onnx_models
