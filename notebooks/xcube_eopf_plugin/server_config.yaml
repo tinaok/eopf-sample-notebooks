@@ -40,7 +40,6 @@ CustomColorMaps:
       - [9, "#ffffff", Cloud high probability]
       - [10, "#64c8ff", Thin cirrus]
       - [11, "#ff96ff", Snow or ice]
-    
 
 ServiceProvider:
   ProviderName: "Brockmann Consult GmbH"
