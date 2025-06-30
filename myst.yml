@@ -38,6 +38,7 @@ project:
         - file: notebooks/Sentinel-2/NDVI_based_landslide_mapping.ipynb
         - file: notebooks/Sentinel-2/parcel_delineation_sentinel.ipynb
         - file: notebooks/Sentinel-3/Regridding_Sentinel_3_SLSTR_LST.ipynb
+        - file: notebooks/Sentinel-3/heatwave_netherlands3.ipynb
         - file: notebooks/xarray_eopf_plugin/introduction_xarray_eopf_plugin.ipynb
         - file: notebooks/xcube_eopf_plugin/introduction_xcube_eopf_plugin.ipynb
         - file: notebooks/Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration.ipynb
