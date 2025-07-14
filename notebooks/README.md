@@ -1,8 +1,8 @@
-# 👋 Welcome to EOPF Sample Service Notebooks
+# 👋 Welcome to EOPF Sentinel Zarr Samples Notebooks
 
 ## How to run the notebooks
 
-The notebooks can be run on the **EOPF Sample Service JupyterHub**.
+The notebooks can be run on the **EOPF Sentinel Zarr Samples JupyterHub**.
 
 👉 Connect via: [https://jupyterhub.user.eopf.eodc.eu/hub](https://jupyterhub.user.eopf.eodc.eu/hub)
 
