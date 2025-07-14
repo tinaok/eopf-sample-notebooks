@@ -34,24 +34,10 @@ Notebooks demonstrating different software tools and libraries
 :columns: 1 1 2 3
 ```
 
-## SNAP
-
-```{gallery-grid}
-:category: snap
-:columns: 1 1 2 3
-```
-
 ## STAC
 
 ```{gallery-grid}
 :category: stac
-:columns: 1 1 2 3
-```
-
-## Zarr
-
-```{gallery-grid}
-:category: zarr
 :columns: 1 1 2 3
 ```
 
