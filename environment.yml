@@ -39,3 +39,5 @@ dependencies:
   - holoviews
   - openeo>=0.44.0
   - pip
+  - pip:
+      - eo-learn
