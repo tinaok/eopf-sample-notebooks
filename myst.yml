@@ -47,6 +47,7 @@ project:
         - file: notebooks/Sentinel-2/oceanographic_wave_spectral_analysis.ipynb
         - file: notebooks/Sentinel-2/oil_spill_index.ipynb
         - file: notebooks/Sentinel-2/Potato_Field_Crop_Type.ipynb
+        - file: notebooks/Sentinel-2/Random_Forest_Land_Cover.ipynb
 
     # Gallery categories (visible in navigation)
     - file: notebooks/gallery-sentinel.md
