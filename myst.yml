@@ -52,6 +52,7 @@ project:
         - file: notebooks/Sentinel-2/Potato_Field_Crop_Type.ipynb
         - file: notebooks/Sentinel-2/Random_Forest_Land_Cover.ipynb
         - file: notebooks/Sentinel-2/water_level_timeseries.ipynb
+        - file: notebooks/Sentinel-2/sentinel-2_crop_type_classification_rule-based.ipynb
 
     # Gallery categories (visible in navigation)
     - file: notebooks/gallery-tutorials.md
