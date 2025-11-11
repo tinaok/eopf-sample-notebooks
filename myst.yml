@@ -7,6 +7,7 @@ project:
   description: Jupyter notebooks showcasing the usage of EOPF Sample Zarr Service
   plugins:
     - gallery-page.mjs
+    - add-jupyterhub-button.mjs
   authors:
     - name: European Space Agency
       affiliations:
@@ -14,10 +15,6 @@ project:
           institution: ESA
           ror: https://ror.org/03wd9za21
   github: https://github.com/EOPF-Sample-Service/eopf-sample-notebooks
-  jupyter:
-    binder:
-      repo: EOPF-Sample-Service/eopf-sample-notebooks
-      url: https://binderhub.user.eopf.eodc.eu
   banner: notebooks/static/ESA_footer_banner_transparent.png
   thumbnail: notebooks/static/ESA_EOPF_logo_2025_COLOR_ESA_blue_reduced.png
   open_access: true
@@ -36,18 +33,28 @@ project:
         - file: notebooks/Sentinel-2/deforestation_monitoring_zarr.ipynb
         - file: notebooks/Sentinel-2/NDVI_based_landslide_mapping.ipynb
         - file: notebooks/Sentinel-2/parcel_delineation_sentinel.ipynb
+        - file: notebooks/Sentinel-2/eopf_openeo_stac.ipynb
         - file: notebooks/Sentinel-3/Regridding_Sentinel_3_SLSTR_LST.ipynb
         - file: notebooks/Sentinel-3/Sentinel-3_Heatwave_Mapping.ipynb
-        - file: notebooks/xarray_eopf_plugin/introduction_xarray_eopf_plugin.ipynb
-        - file: notebooks/xcube_eopf_plugin/introduction_xcube_eopf_plugin.ipynb
+        - file: notebooks/xarray_eopf_plugin/xarray_eopf_sen2.ipynb
+        - file: notebooks/xarray_eopf_plugin/xarray_eopf_sen3.ipynb
+        - file: notebooks/xcube_eopf_plugin/xcube_eopf_sen2.ipynb
+        - file: notebooks/xcube_eopf_plugin/xcube_eopf_sen3.ipynb
         - file: notebooks/Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration.ipynb
+        - file: notebooks/Sentinel-1/Sentinel-1_L1_SLC_Zarr_product_exploration.ipynb
         - file: notebooks/Sentinel-1/Sentinel-1_L2_OCN_Zarr_product_exploration.ipynb
-        - file: notebooks/EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype.ipynb
-        - file: notebooks/EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype.ipynb
         - file: notebooks/STAC/STAC_EOPF_ZARR_SENTINEL.ipynb
         - file: notebooks/Sentinel-2/Sentinel-2_NDSI_Snow_Mapping.ipynb
+        - file: notebooks/Dask/Dask_Intro.ipynb
+        - file: notebooks/STAC/Data_Access_Tutorial.ipynb
+        - file: notebooks/Sentinel-2/oceanographic_wave_spectral_analysis.ipynb
+        - file: notebooks/Sentinel-2/oil_spill_index.ipynb
+        - file: notebooks/Sentinel-2/Potato_Field_Crop_Type.ipynb
+        - file: notebooks/Sentinel-2/Random_Forest_Land_Cover.ipynb
+        - file: notebooks/Sentinel-2/water_level_timeseries.ipynb
 
     # Gallery categories (visible in navigation)
+    - file: notebooks/gallery-tutorials.md
     - file: notebooks/gallery-sentinel.md
     - file: notebooks/gallery-topics.md
     - file: notebooks/gallery-tools.md

@@ -1,59 +1,106 @@
 {
-  "xcube_eopf_plugin/introduction_xcube_eopf_plugin": {
-    "title": "Introduction to xcube-eopf Data Store.",
-    "description": "A xcube Data Store providing Analysis-Ready Datacubes (ARDC) from EOPF Sentinel Zarr Samples",
-    "tags": [
-      "xcube",
-      "sentinel-2",
-      "xcube-eopf",
-      "xarray",
-      "stac",
-      "xarray-eopf"
-    ],
-    "has_explicit_tags": true,
-    "folder": "xcube_eopf_plugin"
-  },
-  "STAC/STAC_EOPF_ZARR_SENTINEL": {
-    "title": "STAC-Based Exploration and Visualization of Sentinel-2 and Sentinel-1 Data",
-    "description": "Learn how to access Sentinel-2 and Sentinel-1 images via the EOPF STAC Catalog using pystac-client",
-    "tags": [
-      "stac",
-      "sentinel-1",
-      "xarray",
-      "sentinel-2"
-    ],
-    "has_explicit_tags": true,
-    "folder": "STAC"
-  },
   "Sentinel-1/Sentinel-1_L1_GRD_Zarr_product_exploration": {
     "title": "Sentinel-1 GRD Zarr Product Exploration",
     "description": "Explore how to open, inspect the metadata and visualise Sentinel-1 GRD Zarr format",
-    "tags": [
-      "xarray",
-      "sentinel-1"
-    ],
+    "tags": ["xarray", "sentinel-1"],
     "has_explicit_tags": true,
     "folder": "Sentinel-1"
   },
   "Sentinel-1/Sentinel-1_L2_OCN_Zarr_product_exploration": {
     "title": "Sentinel-1 L2 OCN Zarr Product Exploration",
     "description": "Explore how to open, visualise and use Sentinel-1 OCN products in EOPF Zarr format",
-    "tags": [
-      "marine",
-      "xarray",
-      "sentinel-1"
-    ],
+    "tags": ["xarray", "sentinel-1", "marine"],
     "has_explicit_tags": true,
     "folder": "Sentinel-1"
+  },
+  "xcube_eopf_plugin/introduction_xcube_eopf_plugin": {
+    "title": "Introduction to xcube-eopf Data Store.",
+    "description": "A xcube Data Store providing Analysis-Ready Datacubes (ARDC) from EOPF Sentinel Zarr Samples",
+    "tags": [
+      "xarray-eopf",
+      "sentinel-2",
+      "xarray",
+      "xcube-eopf",
+      "stac",
+      "xcube"
+    ],
+    "has_explicit_tags": true,
+    "folder": "xcube_eopf_plugin"
+  },
+  "xarray_eopf_plugin/introduction_xarray_eopf_plugin": {
+    "title": "Introduction to xarray-eopf backend.",
+    "description": "A userfriendly way to open the new EOPF Zarr products with Xarray.",
+    "tags": ["xarray-eopf", "sentinel-2", "xarray", "stac", "sentinel-1"],
+    "has_explicit_tags": true,
+    "folder": "xarray_eopf_plugin"
+  },
+  "EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype": {
+    "title": "Sentinel-3 Patchwork L1 OLCI EFR L2 SLSTR FPR SYN AOD product format prototype",
+    "description": "Sentinel-3 L1 OLCI EFR, Sentinel-3 L2 SLSTR FPR, Sentinel-3 SYN AOD product",
+    "tags": ["xarray", "sentinel-3"],
+    "has_explicit_tags": true,
+    "folder": "EOPF_Tutorials"
+  },
+  "EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype": {
+    "title": "SENTINEL-1 L1 SLC TOPSAR Product Format Prototype",
+    "description": "Example of slc TOPSAR product and some easy usage examples",
+    "tags": ["xarray", "sentinel-1"],
+    "has_explicit_tags": true,
+    "folder": "EOPF_Tutorials"
+  },
+  "Dask/Dask_Intro": {
+    "title": "Dask Intro",
+    "description": "Explore how to connect to the dask gateway, spin up and scale a cluster and submit a simple workload.",
+    "tags": ["dask"],
+    "has_explicit_tags": true,
+    "folder": "Dask"
+  },
+  "Sentinel-3/Regridding_Sentinel_3_SLSTR_LST": {
+    "title": "Regridding Sentinel-3 SLSTR Data",
+    "description": "Learn how to regridding Sentinel-3 SLSTR data",
+    "tags": ["xarray", "sentinel-3", "climate-change"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-3"
+  },
+  "Sentinel-3/Sentinel-3_Heatwave_Mapping": {
+    "title": "Heatwave in Netherlands",
+    "description": "Learn how to read, process and use Sentinel-3 Land Surface Temperature",
+    "tags": ["xarray", "sentinel-3", "climate-change"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-3"
+  },
+  "STAC/STAC_EOPF_ZARR_SENTINEL": {
+    "title": "STAC-Based Exploration and Visualization of Sentinel-2 and Sentinel-1 Data",
+    "description": "Learn how to access Sentinel-2 and Sentinel-1 images via the EOPF STAC Catalog using pystac-client",
+    "tags": ["xarray", "sentinel-1", "stac", "sentinel-2"],
+    "has_explicit_tags": true,
+    "folder": "STAC"
   },
   "Sentinel-2/SAFE_Zarr_Metadata_Comparison_S2_L2A": {
     "title": "Zarr vs SAFE Metadata",
     "description": "Learn how to extract Metadata from EOPF Zarr, in comparison with SAFE (Standard Archive Format for Europe) using GDAL & Xarray (Sentinel-2 L2A)",
-    "tags": [
-      "gdal",
-      "xarray",
-      "sentinel-2"
-    ],
+    "tags": ["xarray", "sentinel-2", "gdal"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-2"
+  },
+  "Sentinel-2/NDVI_based_landslide_mapping": {
+    "title": "NDVI-based approach to study Landslide areas",
+    "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
+    "tags": ["xarray", "sentinel-2", "land"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-2"
+  },
+  "Sentinel-2/parcel_delineation_sentinel": {
+    "title": "Parcel delineation using Sentinel-2",
+    "description": "Delineating agricultural parcels based on a neural network, using Sentinel-2 input data",
+    "tags": ["xarray", "Machine Learning", "Sentinel-2", "Neural Networks"],
+    "has_explicit_tags": true,
+    "folder": "Sentinel-2"
+  },
+  "Sentinel-2/GDAL_explore_Zarr": {
+    "title": "Explore EOPF Zarr Sentinel-2 files using GDAL",
+    "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
+    "tags": ["sentinel-2", "gdal", "land"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
@@ -61,12 +108,12 @@
     "title": "NDSI based snow mapping with Sentinel-2",
     "description": "Demonstrate how to map snow coverage using the Sentinel-2 data in EOPF Zarr format",
     "tags": [
-      "xcube",
+      "xarray-eopf",
       "sentinel-2",
-      "xcube-eopf",
       "xarray",
+      "xcube-eopf",
       "stac",
-      "xarray-eopf"
+      "xcube"
     ],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
@@ -74,112 +121,15 @@
   "Sentinel-2/deforestation_monitoring_zarr": {
     "title": "Deforestation Monitoring using Sentinel 2 and xarray",
     "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
-    "tags": [
-      "land",
-      "xarray",
-      "sentinel-2"
-    ],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-2"
-  },
-  "Sentinel-2/NDVI_based_landslide_mapping": {
-    "title": "NDVI-based approach to study Landslide areas",
-    "description": "Streamlining Cloud-Based Processing with EOPF and Xarray",
-    "tags": [
-      "land",
-      "xarray",
-      "sentinel-2"
-    ],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-2"
-  },
-  "Sentinel-2/parcel_delineation_sentinel": {
-    "title": "Parcel delineation using Sentinel-2",
-    "description": "Delineating agricultural parcels based on a neural network, using Sentinel-2 input data",
-    "tags": [
-      "Sentinel-2",
-      "xarray",
-      "Neural Networks",
-      "Machine Learning"
-    ],
+    "tags": ["xarray", "sentinel-2", "land"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
   },
   "Sentinel-2/Sentinel-2_L1C_MSI_Zarr_product_exploration": {
     "title": "Sentinel-2 L1C MSI Zarr Product Exploration",
     "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
-    "tags": [
-      "land",
-      "xarray",
-      "sentinel-2"
-    ],
+    "tags": ["xarray", "sentinel-2", "land"],
     "has_explicit_tags": true,
     "folder": "Sentinel-2"
-  },
-  "Sentinel-2/GDAL_explore_Zarr": {
-    "title": "Explore EOPF Zarr Sentinel-2 files using GDAL",
-    "description": "Explore how to open, visualise and plot Sentinel-2 L1C MSI EOPF Zarr format",
-    "tags": [
-      "gdal",
-      "land",
-      "sentinel-2"
-    ],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-2"
-  },
-  "Sentinel-3/Sentinel-3_Heatwave_Mapping": {
-    "title": "Heatwave in Netherlands",
-    "description": "Learn how to read, process and use Sentinel-3 Land Surface Temperature",
-    "tags": [
-      "sentinel-3",
-      "climate-change",
-      "xarray"
-    ],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-3"
-  },
-  "Sentinel-3/Regridding_Sentinel_3_SLSTR_LST": {
-    "title": "Regridding Sentinel-3 SLSTR Data",
-    "description": "Learn how to regridding Sentinel-3 SLSTR data",
-    "tags": [
-      "sentinel-3",
-      "climate-change",
-      "xarray"
-    ],
-    "has_explicit_tags": true,
-    "folder": "Sentinel-3"
-  },
-  "xarray_eopf_plugin/introduction_xarray_eopf_plugin": {
-    "title": "Introduction to xarray-eopf backend.",
-    "description": "A userfriendly way to open the new EOPF Zarr products with Xarray.",
-    "tags": [
-      "sentinel-2",
-      "xarray",
-      "sentinel-1",
-      "stac",
-      "xarray-eopf"
-    ],
-    "has_explicit_tags": true,
-    "folder": "xarray_eopf_plugin"
-  },
-  "EOPF_Tutorials/Sentinel-3_Patchwork_L1_OLCI_EFR_L2_SLSTR_FPR_SYN_AOD_product_format_prototype": {
-    "title": "Sentinel-3 Patchwork L1 OLCI EFR L2 SLSTR FPR SYN AOD product format prototype",
-    "description": "Sentinel-3 L1 OLCI EFR, Sentinel-3 L2 SLSTR FPR, Sentinel-3 SYN AOD product",
-    "tags": [
-      "sentinel-3",
-      "xarray"
-    ],
-    "has_explicit_tags": true,
-    "folder": "EOPF_Tutorials"
-  },
-  "EOPF_Tutorials/Sentinel-1_L1_SLC_TOPSAR_product_format_prototype": {
-    "title": "SENTINEL-1 L1 SLC TOPSAR Product Format Prototype",
-    "description": "Example of slc TOPSAR product and some easy usage examples",
-    "tags": [
-      "xarray",
-      "sentinel-1"
-    ],
-    "has_explicit_tags": true,
-    "folder": "EOPF_Tutorials"
   }
 }

@@ -96,11 +96,6 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-.gallery-tag.tag-emergency {
-  background: #da1703;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 .gallery-tag.tag-climate-change {
   background: #ff0a0a;
   border-color: rgba(255, 255, 255, 0.3);
@@ -237,5 +232,91 @@
     background: #f8f9fa !important;
     color: #212529 !important;
     border: 1px solid #dee2e6 !important;
+  }
+}
+
+/* ========================================
+   JUPYTERHUB BUTTON STYLES
+   Only targets links to jupyterhub.user.eopf.eodc.eu
+   ======================================== */
+
+/* The launch button itself - very specific selector */
+a[href*="jupyterhub.user.eopf.eodc.eu"] {
+  display: inline-block !important;
+  background-color: #00c6fd !important;
+  color: white !important;
+  padding: 20px 50px !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  border-radius: 40px !important;
+  box-shadow: 0 6px 20px rgba(0, 198, 253, 0.3) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+}
+
+/* Button hover state */
+a[href*="jupyterhub.user.eopf.eodc.eu"]:hover {
+  opacity: 0.9 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 198, 253, 0.4) !important;
+  background-color: #00a8e0 !important;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+/* ONLY target containers that have the JupyterHub button */
+/* Using :has() to be very specific */
+div:has(> div > p > a[href*="jupyterhub.user.eopf.eodc.eu"]) > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 50px 20px !important;
+  width: 100% !important;
+}
+
+/* Center ONLY the paragraph containing the JupyterHub link */
+p:has(> a[href*="jupyterhub.user.eopf.eodc.eu"]) {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+/* Style ONLY the description that follows a JupyterHub button */
+p:has(> a[href*="jupyterhub.user.eopf.eodc.eu"]) + p {
+  text-align: center !important;
+  margin-top: 20px !important;
+  width: 100% !important;
+}
+
+/* Style ONLY the em inside button descriptions */
+p:has(> a[href*="jupyterhub.user.eopf.eodc.eu"]) + p em {
+  color: #666 !important;
+  font-size: 18px !important;
+  font-style: italic !important;
+  display: inline-block !important;
+  text-align: center !important;
+}
+
+/* Mobile responsive - only for JupyterHub buttons */
+@media (max-width: 768px) {
+  a[href*="jupyterhub.user.eopf.eodc.eu"] {
+    padding: 15px 30px !important;
+    font-size: 20px !important;
+  }
+
+  p:has(> a[href*="jupyterhub.user.eopf.eodc.eu"]) + p em {
+    font-size: 16px !important;
+  }
+
+  div:has(> div > p > a[href*="jupyterhub.user.eopf.eodc.eu"]) > div {
+    padding: 30px 15px !important;
   }
 }

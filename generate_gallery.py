@@ -265,6 +265,11 @@ def generate_gallery_pages(notebook_tags, output_dir="notebooks"):
             "description": "Notebooks demonstrating different software tools and libraries",
             "file": f"{output_dir}/gallery-tools.md",
         },
+        "tutorials": {
+            "title": "Tutorials",
+            "description": "Notebooks demonstrating the main workflows for accessing and processing data",
+            "file": f"{output_dir}/gallery-tutorials.md",
+        },
     }
 
     # Create output directory if it doesn't exist
@@ -342,13 +347,6 @@ title: {categories["topics"]["title"]}
 :columns: 1 1 2 3
 ```
 
-## Emergency Response
-
-```{{gallery-grid}}
-:category: emergency
-:columns: 1 1 2 3
-```
-
 ## Climate Monitoring
 
 ```{{gallery-grid}}
@@ -363,7 +361,7 @@ title: {categories["topics"]["title"]}
 :columns: 1 1 2 3
 ```
 
-## Security Applications
+## Emergency and Security Applications
 
 ```{{gallery-grid}}
 :category: security
@@ -420,6 +418,33 @@ title: {categories["tools"]["title"]}
 ```
 
 """
+        )
+
+    # Generate Tutorials category page
+    with open(categories["tutorials"]["file"], "w") as f:
+        f.write(
+            """---
+title: Tutorials
+---
+
+# Tutorials
+
+Notebooks demonstrating the main workflows for accessing and working with the data
+
+## Dask
+
+```{gallery-grid}
+:category: dask
+:columns: 1 1 2 3
+```
+
+## STAC
+
+```{gallery-grid}
+:category: stac
+:columns: 1 1 2 3
+```
+        """
         )
 
 
@@ -563,8 +588,8 @@ date: 2025-03-04
 
     print("\n📝 Available tag categories:")
     print("  Sentinel: sentinel-1, sentinel-2, sentinel-3")
-    print("  Topics: land, emergency, climate-change, marine, security")
-    print("  Tools: xarray, xarray-eopf, xcube, gdal, snap, stac, zarr")
+    print("  Topics: land, climate-change, marine, security")
+    print("  Tools: xarray, xarray-eopf, xcube, gdal, snap, stac, zarr, dask")
     print("  Levels: level-1, level-2")
     print("\n💡 Tags from frontmatter take priority over automatic detection")
     print("💡 If no tags are found, keywords will be converted to tags automatically")
@@ -610,6 +635,7 @@ if __name__ == "__main__":
         f"{ROOT_DIR}/gallery-sentinel.md",
         f"{ROOT_DIR}/gallery-topics.md",
         f"{ROOT_DIR}/gallery-tools.md",
+        f"{ROOT_DIR}/gallery-tutorials.md",
     ]
     for file_path in gallery_files:
         if Path(file_path).exists():
@@ -664,6 +690,7 @@ if __name__ == "__main__":
         print(f"  - {ROOT_DIR}/gallery-sentinel.md")
         print(f"  - {ROOT_DIR}/gallery-topics.md")
         print(f"  - {ROOT_DIR}/gallery-tools.md")
+        print(f"  - {ROOT_DIR}/gallery-tutorials.md")
 
         print("\n💡 All notebooks use YAML frontmatter tags")
     else:

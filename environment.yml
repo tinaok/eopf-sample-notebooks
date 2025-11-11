@@ -4,8 +4,9 @@ channels:
 dependencies:
   - python=3.11
   - xarray
-  - xarray-eopf>=0.1.1
-  - xcube-eopf>=0.1.0
+  - xarray-eopf>=0.2.2
+  - xcube-eopf>=0.3.0
+  - xcube-stac
   - folium
   - graphviz
   - mapclassify
@@ -15,8 +16,10 @@ dependencies:
   - fsspec
   - numpy=1.26.4
   - mystmd
+  - myst-nb-bokeh
   - cartopy
   - gdal
+  - libgdal-jp2openjpeg
   - jupyterlab-myst
   - python-graphviz
   - pystac-client
@@ -31,4 +34,8 @@ dependencies:
   - s3fs
   - onnxruntime
   - netcdf4
+  - hvplot
+  - bokeh
+  - holoviews
+  - openeo>=0.44.0
   - pip

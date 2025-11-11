@@ -13,14 +13,14 @@ Notebooks demonstrating different software tools and libraries
 :columns: 1 1 2 3
 ```
 
-## Xarray-eopf Plugin
+## Xarray-eopf Plug-in
 
 ```{gallery-grid}
 :category: xarray-eopf
 :columns: 1 1 2 3
 ```
 
-## XCube
+## XCube-eopf Plug-in
 
 ```{gallery-grid}
 :category: xcube

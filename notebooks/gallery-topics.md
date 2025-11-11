@@ -13,13 +13,6 @@ Notebooks organized by Earth observation application domains
 :columns: 1 1 2 3
 ```
 
-## Emergency Response
-
-```{gallery-grid}
-:category: emergency
-:columns: 1 1 2 3
-```
-
 ## Climate Monitoring
 
 ```{gallery-grid}
@@ -34,10 +27,9 @@ Notebooks organized by Earth observation application domains
 :columns: 1 1 2 3
 ```
 
-## Security Applications
+## Emergency and Security Applications
 
 ```{gallery-grid}
 :category: security
 :columns: 1 1 2 3
 ```
-
