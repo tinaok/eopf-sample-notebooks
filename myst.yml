@@ -36,6 +36,7 @@ project:
         - file: notebooks/Sentinel-2/eopf_openeo_stac.ipynb
         - file: notebooks/Sentinel-3/Regridding_Sentinel_3_SLSTR_LST.ipynb
         - file: notebooks/Sentinel-3/Sentinel-3_Heatwave_Mapping.ipynb
+        - file: notebooks/07-Sentinel-3-OLCI-Level-1-EFR.ipynb
         - file: notebooks/xarray_eopf_plugin/xarray_eopf_sen2.ipynb
         - file: notebooks/xarray_eopf_plugin/xarray_eopf_sen3.ipynb
         - file: notebooks/xcube_eopf_plugin/xcube_eopf_sen2.ipynb
